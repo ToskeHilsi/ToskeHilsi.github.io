@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insane Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#050816;
+color:white;
+overflow-x:hidden;
+}
+
+/* SCROLL BAR */
+
+#progress{
+position:fixed;
+top:0;
+left:0;
+height:4px;
+background:#38bdf8;
+width:0%;
+z-index:9999;
+}
+
+/* CUSTOM CURSOR */
+
+.cursor{
+width:20px;
+height:20px;
+border:2px solid #38bdf8;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
+transition:0.1s;
+z-index:9999;
+}
+
+/* HEADER */
+
+header{
+position:fixed;
+width:100%;
+top:0;
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+nav a{
+margin-left:25px;
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+nav a:hover{
+color:#38bdf8;
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:radial-gradient(circle at center,#0f172a,#020617);
+}
+
+.hero h1{
+font-size:4rem;
+margin-bottom:20px;
+}
+
+.hero span{
+color:#38bdf8;
+}
+
+.hero p{
+max-width:600px;
+margin-bottom:30px;
+}
+
+.btn{
+background:#38bdf8;
+color:black;
+padding:15px 35px;
+border-radius:10px;
+text-decoration:none;
+font-weight:600;
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+}
+
+/* PARTICLES */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+/* SECTIONS */
+
+section{
+padding:120px 10%;
+opacity:0;
+transform:translateY(60px);
+transition:1s;
+}
+
+section.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.section-title{
+font-size:2.5rem;
+margin-bottom:60px;
+text-align:center;
+}
+
+/* ABOUT */
+
+.about{
+max-width:800px;
+margin:auto;
+text-align:center;
+font-size:1.1rem;
+}
+
+/* SKILLS */
+
+.skills{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:30px;
+}
+
+.skill{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:15px;
+text-align:center;
+transition:.4s;
+}
+
+.skill:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(56,189,248,0.5);
+}
+
+/* PROJECTS */
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:40px;
+}
+
+.project-card{
+perspective:1000px;
+}
+
+.project-inner{
+background:rgba(255,255,255,0.05);
+border-radius:15px;
+overflow:hidden;
+transition:.4s;
+transform-style:preserve-3d;
+}
+
+.project-card:hover .project-inner{
+transform:rotateY(10deg) rotateX(5deg) scale(1.03);
+}
+
+.project-inner img{
+width:100%;
+height:200px;
+object-fit:cover;
+transition:.4s;
+}
+
+.project-card:hover img{
+transform:scale(1.1);
+}
+
+.project-content{
+padding:20px;
+}
+
+.project-content h3{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+/* CONTACT */
+
+.contact{
+text-align:center;
+font-size:1.2rem;
+}
+
+footer{
+text-align:center;
+padding:40px;
+background:#020617;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="progress"></div>
+<div class="cursor"></div>
+
+<canvas id="particles"></canvas>
+
+<header>
+<h2>MyPortfolio</h2>
+<nav>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<div class="hero">
+
+<h1>Hello I'm <span>Your Name</span></h1>
+<p>I design and build immersive digital experiences.</p>
+
+<a href="#projects" class="btn">See My Work</a>
+
+</div>
+
+<section id="about">
+
+<h2 class="section-title">About</h2>
+
+<div class="about">
+
+<p>
+Write a cool intro about yourself. Talk about your coding journey,
+projects you've built, and technologies you love using.
+</p>
+
+</div>
+
+</section>
+
+<section id="skills">
+
+<h2 class="section-title">Skills</h2>
+
+<div class="skills">
+
+<div class="skill">HTML</div>
+<div class="skill">CSS</div>
+<div class="skill">JavaScript</div>
+<div class="skill">React</div>
+<div class="skill">Node.js</div>
+<div class="skill">Python</div>
+
+</div>
+
+</section>
+
+<section id="projects">
+
+<h2 class="section-title">Projects</h2>
+
+<div class="projects">
+
+<div class="project-card">
+<div class="project-inner">
+
+<img src="images/project1.jpg">
+
+<div class="project-content">
+
+<h3>Project One</h3>
+<p>Short project description.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="project-card">
+<div class="project-inner">
+
+<img src="images/project2.jpg">
+
+<div class="project-content">
+
+<h3>Project Two</h3>
+<p>Short project description.</p>
+
+</div>
+
+</div>
+</div>
+
+<div class="project-card">
+<div class="project-inner">
+
+<img src="images/project3.jpg">
+
+<div class="project-content">
+
+<h3>Project Three</h3>
+<p>Short project description.</p>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<h2 class="section-title">Contact</h2>
+
+<div class="contact">
+
+<p>Email: your@email.com</p>
+<p>GitHub: github.com/yourname</p>
+<p>LinkedIn: linkedin.com/in/yourname</p>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 Your Name</p>
+
+</footer>
+
+<script>
+
+/* CUSTOM CURSOR */
+
+const cursor = document.querySelector(".cursor")
+
+document.addEventListener("mousemove",e=>{
+cursor.style.left = e.clientX + "px"
+cursor.style.top = e.clientY + "px"
+})
+
+/* SCROLL PROGRESS */
+
+window.addEventListener("scroll",()=>{
+
+let scroll = document.documentElement.scrollTop
+let height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+
+document.getElementById("progress").style.width = (scroll/height)*100 + "%"
+
+})
+
+/* SECTION ANIMATIONS */
+
+const sections = document.querySelectorAll("section")
+
+window.addEventListener("scroll",()=>{
+
+const trigger = window.innerHeight * 0.85
+
+sections.forEach(section=>{
+
+const top = section.getBoundingClientRect().top
+
+if(top < trigger){
+section.classList.add("show")
+}
+
+})
+
+})
+
+/* PARTICLES */
+
+const canvas = document.getElementById("particles")
+const ctx = canvas.getContext("2d")
+
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
+
+let particles = []
+
+for(let i=0;i<80;i++){
+
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2,
+speedX:(Math.random()-0.5)*0.5,
+speedY:(Math.random()-0.5)*0.5
+})
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+particles.forEach(p=>{
+
+p.x += p.speedX
+p.y += p.speedY
+
+ctx.fillStyle="rgba(56,189,248,0.7)"
+ctx.beginPath()
+ctx.arc(p.x,p.y,p.size,0,Math.PI*2)
+ctx.fill()
+
+})
+
+requestAnimationFrame(animate)
+
+}
+
+animate()
+
+</script>
+
+</body>
+</html>
