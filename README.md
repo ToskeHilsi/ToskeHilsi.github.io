@@ -1,0 +1,3 @@
+- Clicking on projects should take you to their github
+- The grid is way too faint, you cant see it
+- Remove the tesseract
