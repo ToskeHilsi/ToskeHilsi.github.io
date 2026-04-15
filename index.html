@@ -3,1122 +3,946 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SANCTUARY - Portfolio</title>
-<!--
-  FONT: Deltarune uses "8-bit Operator JVE" (Pixel Operator by Jayvee Enaguas)
-  To install:
-    1. Download PixelOperator.ttf from: https://notoebrau.itch.io/pixel-operator
-    2. Place PixelOperator.ttf in the same folder as this HTML file
-    3. Uncomment the @font-face block in the CSS below
-  Until then the site uses Courier New as a fallback.
-
-  SPRITES: Create a sprites/ folder next to this file and add:
-    sprites/player.png      - your character (32x32 px pixel art)
-    sprites/npc_intro.png   - title screen NPC
-    sprites/jevil.png       - Jevil sprite for hidden room
-    sprites/spamton.png     - Spamton for terminal popup
-    sprites/proj_1.png      - project card icons (16x16 or 32x32)
-    sprites/proj_2.png
-    sprites/proj_3.png
-    sprites/proj_4.png
-  Replace emoji spans with:
-    <img src="sprites/player.png" style="image-rendering:pixelated;width:64px;height:64px">
--->
+<title>Portfolio — [Your Name]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-/*
-@font-face {
-  font-family: 'PixelOperator';
-  src: url('sprites/PixelOperator.ttf') format('truetype');
-}
-*/
-:root {
-  --bg:    #09090f;
-  --bg2:   #0c0c16;
-  --bg3:   #0f0f1a;
-  --panel: #141420;
-  --bord:  #222238;
-  --acc:   #6854f0;
-  --acc2:  #b4aaff;
-  --gold:  #eece50;
-  --teal:  #34c8c0;
-  --pink:  #e068be;
-  --red:   #ee3858;
-  --green: #4cef6c;
-  --white: #e2deff;
-  --dim:   #484878;
-  --cbg:   #160a1a;
-  --cbor:  #c02850;
-  --font:  'PixelOperator', 'Courier New', Courier, monospace;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg); color: var(--white);
-  font-family: var(--font); overflow-x: hidden; cursor: none;
-  -webkit-font-smoothing: none; image-rendering: pixelated;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* CURSOR - the SOUL diamond */
-#cur {
-  position: fixed; width: 12px; height: 12px; background: var(--red);
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%) rotate(45deg);
-  box-shadow: 0 0 8px rgba(238,56,88,0.8);
-  transition: background 0.1s, transform 0.1s;
-}
-#cur.act { transform: translate(-50%,-50%) rotate(45deg) scale(1.5); background: var(--gold); }
+  :root {
+    --neon-pink: #ff2d78;
+    --neon-purple: #9b2dff;
+    --neon-blue: #2d8fff;
+    --glow-pink: rgba(255, 45, 120, 0.18);
+    --glow-purple: rgba(155, 45, 255, 0.14);
+    --bg: #07060f;
+    --surface: #0d0b1a;
+    --surface2: #131127;
+    --text: #e8e4f4;
+    --text-muted: #7a7494;
+    --text-dim: #3d3860;
+    --border: rgba(155, 45, 255, 0.18);
+    --mono: 'Space Mono', monospace;
+    --display: 'Syne', sans-serif;
+  }
 
-/* SCANLINES */
-#scl {
-  position: fixed; inset: 0; pointer-events: none; z-index: 9000;
-  background: repeating-linear-gradient(0deg, transparent, transparent 3px,
-    rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
-}
+  html { scroll-behavior: smooth; }
 
-/* STARS */
-#sf { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.star {
-  position: absolute; border-radius: 50%; background: #fff;
-  animation: twk var(--d,3s) ease-in-out infinite;
-  animation-delay: var(--dl,0s);
-}
-@keyframes twk { 0%,100%{opacity:var(--lo,.1)} 50%{opacity:var(--hi,.8)} }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-/* DUST */
-.dust {
-  position: fixed; border-radius: 50%; pointer-events: none; z-index: 1;
-  animation: dr var(--dur,12s) linear infinite; animation-delay: var(--dly,0s);
-}
-@keyframes dr {
-  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-  10%  { opacity: 0.5; transform: translateY(90vh) translateX(var(--dx,0px)) scale(1); }
-  90%  { opacity: 0.2; }
-  100% { transform: translateY(-5vh) translateX(calc(var(--dx,0px)*3)) scale(0.4); opacity: 0; }
-}
+  /* --- CURSOR --- */
+  #cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--neon-pink);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.12s ease, opacity 0.2s;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(155,45,255,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    transform: translate(-50%, -50%);
+  }
 
-/* TOAST */
-#toast {
-  position: fixed; top: 58px; right: 14px; background: var(--panel);
-  border: 2px solid var(--gold); color: var(--gold); font-family: var(--font);
-  font-size: .72rem; padding: 7px 14px; z-index: 9000; letter-spacing: .05em;
-  transform: translateX(150%); transition: transform .25s;
-  box-shadow: 0 0 14px rgba(238,206,80,.3);
-}
-#toast.on { transform: translateX(0); }
+  /* --- CANVAS LAYERS --- */
+  #canvas-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
 
-/* NAV */
-#nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 8000;
-  background: rgba(9,9,15,.96); border-bottom: 2px solid var(--bord);
-  display: flex; justify-content: center; gap: 2px; padding: 7px 14px 9px;
-}
-.nb {
-  background: var(--panel); border: 2px solid var(--bord);
-  color: var(--acc2); font-family: var(--font); font-size: .7rem;
-  letter-spacing: .06em; padding: 5px 13px; cursor: none;
-  transition: background .15s, border-color .15s, color .15s;
-}
-.nb:hover, .nb.act {
-  background: var(--acc); border-color: var(--acc2); color: var(--white);
-  box-shadow: 0 0 10px rgba(104,84,240,.4);
-}
+  /* --- NAV --- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(7,6,15,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--neon-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 0;
+    height: 1px;
+    background: var(--neon-pink);
+    transform: scaleX(0);
+    transition: transform 0.2s;
+    transform-origin: left;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { transform: scaleX(1); }
 
-/* ROOMS */
-.room {
-  min-height: 100vh; position: relative;
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; padding: 80px 20px 60px; overflow: hidden;
-}
-.rl {
-  font-size: .62rem; color: var(--dim); letter-spacing: .25em;
-  text-transform: uppercase; margin-bottom: 22px;
-  display: flex; align-items: center; gap: 10px;
-}
-.rl::before, .rl::after { content: ''; flex: 1; height: 1px; background: var(--bord); }
-.st { font-family: var(--font); font-size: 1.35rem; text-align: center; margin-bottom: 4px; }
-.ss { font-size: .62rem; color: var(--dim); text-align: center; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 26px; }
+  /* --- SECTIONS --- */
+  section {
+    position: relative;
+    z-index: 10;
+  }
 
-/* DIALOGUE BOX - white box, black text, accurate Deltarune style */
-#dov {
-  position: fixed; inset: 0; display: flex; align-items: flex-end;
-  justify-content: center; padding: 0 18px 26px; z-index: 8500;
-  pointer-events: none; opacity: 0; transition: opacity .15s;
-}
-#dov.on { pointer-events: all; opacity: 1; }
-#dbox {
-  background: #fff; border: 4px solid #000;
-  box-shadow: 4px 4px 0 #000; max-width: 660px; width: 100%;
-}
-#din { padding: 14px 18px 10px; position: relative; }
-#dsp { font-size: .65rem; color: #000; letter-spacing: .04em; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
-#dtx { font-size: .85rem; line-height: 1.8; color: #000; min-height: 3em; }
-#darr { position: absolute; bottom: 9px; right: 12px; color: #000; font-size: .9rem; animation: ba .6s ease-in-out infinite; }
-@keyframes ba { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
-#dch { display: flex; flex-direction: column; border-top: 2px solid #ccc; }
-.cb {
-  background: transparent; border: none; border-bottom: 1px solid #ddd;
-  color: #000; font-family: var(--font); font-size: .8rem;
-  padding: 8px 18px; text-align: left; cursor: none; transition: background .1s;
-}
-.cb::before { content: '  '; }
-.cb:hover { background: #eef; }
-.cb:hover::before { content: '* '; }
-.cb:last-child { border-bottom: none; }
+  /* --- HERO --- */
+  #hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+  }
 
-/* ROOM 0: TITLE */
-#ri { background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(104,84,240,.1) 0%, transparent 70%), var(--bg); }
-.fg {
-  position: absolute; inset: 0; z-index: 0;
-  background-image: linear-gradient(var(--bord) 1px, transparent 1px),
-    linear-gradient(90deg, var(--bord) 1px, transparent 1px);
-  background-size: 32px 32px; opacity: .18;
-}
-.cd { position: absolute; width: 56px; height: 56px; border-color: var(--bord); border-style: solid; opacity: .35; }
-.cd.tl { top:16px; left:16px; border-width:2px 0 0 2px; }
-.cd.tr { top:16px; right:16px; border-width:2px 2px 0 0; }
-.cd.bl { bottom:16px; left:16px; border-width:0 0 2px 2px; }
-.cd.br { bottom:16px; right:16px; border-width:0 2px 2px 0; }
-#tc { text-align: center; position: relative; z-index: 2; }
-#tsr { color: var(--gold); font-size: .82rem; letter-spacing: .6em; margin-bottom: 18px; animation: flk 5s ease-in-out infinite; }
-@keyframes flk { 0%,95%,100%{opacity:1} 96%{opacity:.2} 97%{opacity:1} 98%{opacity:.35} }
-#mt {
-  font-family: var(--font); font-size: clamp(2.2rem,7vw,4.8rem); color: var(--white);
-  text-shadow: 3px 3px 0 #000; letter-spacing: .04em; line-height: 1.1; margin-bottom: 8px;
-  filter: drop-shadow(0 0 18px var(--acc)); animation: tb 4s ease-in-out infinite;
-}
-@keyframes tb { 0%,100%{filter:drop-shadow(0 0 18px var(--acc))} 50%{filter:drop-shadow(0 0 36px var(--acc2))} }
-#sub { font-size: .68rem; color: var(--teal); letter-spacing: .3em; text-transform: uppercase; margin-bottom: 28px; }
-.sp {
-  width: 60px; height: 60px; image-rendering: pixelated;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 3rem; margin-bottom: 14px; cursor: none;
-  animation: spf 2.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 7px var(--acc));
-}
-@keyframes spf { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-#sbtn {
-  background: var(--panel); border: 3px solid var(--acc);
-  color: var(--acc2); font-family: var(--font); font-size: .78rem;
-  letter-spacing: .12em; text-transform: uppercase; padding: 11px 26px;
-  cursor: none; transition: all .15s; animation: pb 2.5s ease-in-out infinite;
-  box-shadow: 0 0 14px rgba(104,84,240,.35);
-}
-@keyframes pb { 0%,100%{box-shadow:0 0 14px rgba(104,84,240,.35)} 50%{box-shadow:0 0 28px rgba(104,84,240,.5)} }
-#sbtn:hover { background: var(--acc); color: var(--white); }
+  /* Clock ring */
+  #clock-wrap {
+    position: relative;
+    width: 220px; height: 220px;
+    margin-bottom: 3rem;
+  }
+  #clock-canvas {
+    position: absolute;
+    top: 0; left: 0;
+  }
+  #clock-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  #clock-time {
+    font-family: var(--mono);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  #clock-date {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
 
-/* ROOM 1: ABOUT - dark zone */
-#ra { background: var(--bg); min-height: 100vh; }
-#dc { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
-#ac { position: relative; z-index: 2; max-width: 800px; width: 100%; }
-.ag { display: grid; grid-template-columns: 150px 1fr; gap: 32px; align-items: start; }
-.sf2 {
-  width: 112px; height: 112px; border: 3px solid var(--acc);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 3.2rem; background: var(--panel); image-rendering: pixelated;
-  animation: sfg 2s ease-in-out infinite;
-}
-@keyframes sfg { 0%,100%{box-shadow:0 0 14px rgba(104,84,240,.35)} 50%{box-shadow:0 0 26px rgba(104,84,240,.5)} }
-.sb2 { margin-top: 10px; }
-.sr { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; font-size: .65rem; }
-.sl { color: var(--gold); width: 48px; text-align: right; letter-spacing: .04em; }
-.sbb { flex: 1; height: 8px; background: var(--panel); border: 1px solid var(--bord); overflow: hidden; }
-.sbf { height: 100%; width: 0; transition: width 1.3s cubic-bezier(.2,1,.3,1); }
-.sv { color: var(--white); width: 26px; font-size: .62rem; }
-.at h2 { font-family: var(--font); font-size: 1.5rem; color: var(--acc2); margin-bottom: 4px; text-shadow: 2px 2px 0 rgba(0,0,0,.8); }
-.at .tl2 { font-size: .65rem; color: var(--teal); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 16px; }
-.at p { font-size: .78rem; line-height: 1.9; color: var(--white); margin-bottom: 10px; opacity: .9; }
-#lsw { position: absolute; right: 9%; top: 26%; z-index: 6; cursor: none; text-align: center; }
-#lsw .swi { font-size: 1.7rem; display: block; animation: sg 2s ease-in-out infinite; filter: drop-shadow(0 0 5px var(--gold)); }
-@keyframes sg { 0%,100%{filter:drop-shadow(0 0 4px var(--gold))} 50%{filter:drop-shadow(0 0 13px var(--gold))} }
-#lsw .swl { font-size: .56rem; color: var(--gold); letter-spacing: .1em; margin-top: 3px; opacity: 0; transition: opacity .3s; white-space: nowrap; }
-#lsw:hover .swl { opacity: 1; }
-#lsw.on .swi { animation: none; filter: drop-shadow(0 0 14px var(--teal)); }
+  /* Tesseract */
+  #tesseract-canvas {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.85;
+    pointer-events: none;
+  }
 
-/* ROOM 2: SKILLS */
-#rsk { background: radial-gradient(ellipse 90% 70% at 50% 50%, rgba(52,200,192,.05) 0%, transparent 70%), var(--bg2); }
-#pw { max-width: 660px; width: 100%; position: relative; z-index: 2; }
-#ph { text-align: center; font-size: .72rem; color: var(--dim); min-height: 1.3em; letter-spacing: .06em; margin-bottom: 16px; transition: color .3s; }
-#cg { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-.cn { background: var(--panel); border: 2px solid var(--bord); padding: 16px 10px; cursor: none; text-align: center; transition: all .2s; }
-.cn:hover { border-color: var(--acc); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(104,84,240,.3); }
-.cn.lit { border-color: var(--teal); background: rgba(52,200,192,.07); animation: cp 1.4s ease-in-out infinite; }
-@keyframes cp { 0%,100%{box-shadow:0 0 14px rgba(52,200,192,.25)} 50%{box-shadow:0 0 28px rgba(52,200,192,.35)} }
-.cn.bad { border-color: var(--red); animation: shk .35s ease; }
-@keyframes shk { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
-.ci { font-size: 1.5rem; display: block; margin-bottom: 5px; }
-.cn2 { font-size: .62rem; color: var(--acc2); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 2px; }
-.cl2 { font-size: .55rem; color: var(--dim); }
-.cn.lit .cn2 { color: var(--teal); }
-#sr2 { opacity: 0; transform: translateY(14px); transition: all .7s; pointer-events: none; }
-#sr2.on { opacity: 1; transform: translateY(0); pointer-events: all; }
-.skc { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-.skt { background: var(--panel); border: 1px solid var(--bord); color: var(--acc2); font-size: .62rem; padding: 4px 11px; letter-spacing: .06em; animation: ti .4s backwards; transition: all .15s; }
-.skt:hover { border-color: var(--teal); color: var(--teal); box-shadow: 0 0 7px rgba(52,200,192,.25); transform: translateY(-2px); }
-@keyframes ti { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--neon-pink);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 20%, var(--neon-pink) 60%, var(--neon-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--text-muted);
+    max-width: 460px;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .btn-primary {
+    background: var(--neon-pink);
+    color: #fff;
+    border: 1px solid var(--neon-pink);
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--neon-pink);
+    box-shadow: 0 0 20px var(--glow-pink), inset 0 0 20px var(--glow-pink);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 16px var(--glow-purple);
+  }
 
-/* ROOM 3: PROJECTS */
-#rp { background: radial-gradient(ellipse 90% 70% at 50% 50%, rgba(224,104,190,.05) 0%, transparent 70%), var(--bg3); min-height: 100vh; padding: 100px 20px 60px; }
-#ew { max-width: 880px; width: 100%; position: relative; z-index: 2; }
-#pg { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 10px; margin-bottom: 20px; }
-.pc { background: var(--panel); border: 2px solid var(--bord); cursor: none; overflow: hidden; transition: all .2s; }
-.pc:hover { border-color: var(--pink); transform: translateY(-3px); box-shadow: 0 6px 18px rgba(224,104,190,.2); }
-.pc.sel { border-color: var(--gold); box-shadow: 0 0 18px rgba(238,206,80,.25); }
-.pct { background: var(--bg); border-bottom: 1px solid var(--bord); padding: 16px; text-align: center; font-size: 2.8rem; image-rendering: pixelated; min-height: 85px; display: flex; align-items: center; justify-content: center; position: relative; }
-.phb { position: absolute; bottom: 5px; left: 7px; right: 7px; height: 5px; background: var(--bord); }
-.phf { height: 100%; transition: width .8s; }
-.hg { background: linear-gradient(90deg, var(--green), var(--teal)); }
-.hy { background: linear-gradient(90deg, var(--gold), #d07820); }
-.pb2 { padding: 11px 13px; }
-.pn { font-size: .78rem; color: var(--acc2); letter-spacing: .05em; margin-bottom: 3px; }
-.pd { font-size: .62rem; color: var(--dim); line-height: 1.6; margin-bottom: 7px; }
-.pts { display: flex; flex-wrap: wrap; gap: 3px; }
-.pt { font-size: .55rem; background: rgba(104,84,240,.1); border: 1px solid var(--bord); color: var(--acc); padding: 2px 6px; }
-#bp { background: var(--bg); border: 3px solid #fff; box-shadow: 3px 3px 0 rgba(255,255,255,.08); display: none; }
-#bp.on { display: block; }
-#bh { background: var(--panel); border-bottom: 2px solid var(--bord); padding: 9px 16px; display: flex; justify-content: space-between; align-items: center; }
-#bn { font-size: .75rem; color: var(--gold); letter-spacing: .07em; }
-#bhp { font-size: .65rem; color: var(--green); }
-#bb { padding: 16px; }
-#bdesc { font-size: .75rem; color: var(--white); line-height: 1.9; margin-bottom: 16px; }
-#bm { display: grid; grid-template-columns: repeat(4,1fr); gap: 5px; }
-.bb2 { background: var(--panel); border: 2px solid var(--bord); color: var(--acc2); font-family: var(--font); font-size: .65rem; padding: 7px 5px; cursor: none; transition: all .15s; text-align: center; letter-spacing: .05em; text-transform: uppercase; }
-.bb2::before { content: '\u2665 '; color: var(--red); }
-.bb2:hover { background: var(--acc); border-color: var(--acc2); color: var(--white); box-shadow: 0 0 8px rgba(104,84,240,.4); }
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+  }
+  .scroll-hint span {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--neon-purple), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
 
-/* ROOM 4: JEVIL'S CELL */
-#rh { background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(130,0,70,.15) 0%, transparent 70%), linear-gradient(180deg, var(--bg) 0%, #100718 100%); min-height: 80vh; }
-.pb3 { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(70,30,90,.2) 28px, rgba(70,30,90,.2) 32px); }
-.csd { position: absolute; font-size: clamp(1.8rem,4vw,3.5rem); opacity: .06; animation: sdf var(--dur,10s) ease-in-out infinite; animation-delay: var(--dl,0s); pointer-events: none; user-select: none; }
-@keyframes sdf { 0%,100%{transform:rotate(var(--r,0deg)) translateY(0)} 50%{transform:rotate(calc(var(--r,0deg)+5deg)) translateY(-10px)} }
-.fc { position: absolute; pointer-events: none; font-size: 1.4rem; animation: cfly var(--dur,8s) linear infinite; animation-delay: var(--dl,0s); opacity: .14; color: var(--cbor); }
-@keyframes cfly { 0%{transform:translateY(100vh) rotate(var(--r,0deg));opacity:0} 10%{opacity:.14} 90%{opacity:.14} 100%{transform:translateY(-20vh) rotate(calc(var(--r,0deg)+180deg));opacity:0} }
-#jc { position: relative; z-index: 2; text-align: center; cursor: none; }
-#jlabel { font-size: .6rem; color: var(--cbor); letter-spacing: .2em; text-transform: uppercase; transition: color .3s; margin-bottom: 4px; }
-#jc:hover #jlabel { color: #ff2060; }
-#jdoor { width: 170px; height: 230px; border: 4px solid var(--cbor); border-radius: 8px 8px 0 0; background: var(--cbg); position: relative; overflow: hidden; margin: 0 auto 10px; transition: all .4s; box-shadow: 0 0 0 2px #000, 0 0 18px rgba(192,40,80,.18); }
-#jdoor:hover { border-color: #ff2060; box-shadow: 0 0 0 2px #000, 0 0 36px rgba(255,32,96,.4); }
-#jdoor::before { content: '\u2660'; position: absolute; top: 10px; left: 10px; font-size: 1.1rem; color: rgba(192,40,80,.55); }
-#jdoor::after  { content: '\u2660'; position: absolute; bottom: 10px; right: 10px; font-size: 1.1rem; color: rgba(192,40,80,.55); transform: rotate(180deg); }
-#jrev { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity .5s; padding: 14px; background: radial-gradient(ellipse at 50% 80%, rgba(120,0,50,.3) 0%, transparent 70%); }
-#jdoor:hover #jrev { opacity: 1; }
-.jspr { font-size: 2.8rem; display: block; margin-bottom: 7px; animation: jsp .7s steps(4) infinite; }
-@keyframes jsp { 0%{transform:rotate(0)} 25%{transform:rotate(90deg)} 50%{transform:rotate(180deg)} 75%{transform:rotate(270deg)} 100%{transform:rotate(360deg)} }
-.jtxt { font-size: .58rem; color: #ff6090; line-height: 1.9; text-align: center; letter-spacing: .05em; text-transform: uppercase; }
-.jkn { font-size: .58rem; color: var(--dim); letter-spacing: .1em; margin-top: 6px; text-transform: uppercase; }
+  /* --- DIVIDER --- */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--neon-purple) 30%, var(--neon-pink) 70%, transparent);
+    opacity: 0.3;
+    margin: 0;
+  }
 
-/* ROOM 5: CONTACT - terminal */
-#rct { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(76,239,108,.05) 0%, transparent 70%), var(--bg2); min-height: 100vh; }
-#tw { max-width: 640px; width: 100%; position: relative; z-index: 2; }
-#trm { background: #000; border: 3px solid var(--green); box-shadow: 0 0 20px rgba(76,239,108,.1); }
-#tbar { background: rgba(76,239,108,.07); border-bottom: 1px solid rgba(76,239,108,.22); padding: 6px 12px; display: flex; align-items: center; gap: 5px; font-size: .6rem; color: var(--green); letter-spacing: .1em; }
-.td { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.td.r { color: var(--red); } .td.y { color: var(--gold); } .td.g { color: var(--green); }
-#tbody { padding: 14px 16px; min-height: 240px; }
-#tout { font-size: .72rem; line-height: 1.9; color: var(--green); margin-bottom: 10px; min-height: 180px; }
-.tl { display: block; animation: ta .04s backwards; }
-@keyframes ta { from{opacity:0} to{opacity:1} }
-.tpc { color: var(--teal); }
-.tcm { color: var(--dim); }
-.tlnk { color: var(--gold); cursor: none; }
-.tlnk:hover { color: var(--white); }
-.tsp { color: #ff40a0; text-shadow: 0 0 4px rgba(255,64,160,.5); }
-.tbr { color: #ff88d8; font-weight: bold; }
-#tir { display: flex; align-items: center; gap: 5px; border-top: 1px solid rgba(76,239,108,.16); padding-top: 9px; }
-.tpl { color: var(--teal); font-size: .72rem; }
-#tin { flex: 1; background: transparent; border: none; outline: none; color: var(--green); font-family: var(--font); font-size: .72rem; caret-color: var(--green); cursor: none; }
-.tblk { width: 6px; height: 1em; background: var(--green); animation: blk 1s step-end infinite; flex-shrink: 0; }
-@keyframes blk { 0%,100%{opacity:1} 50%{opacity:0} }
-#spop { position: absolute; background: #180010; border: 3px solid #ff40a0; box-shadow: 0 0 18px rgba(255,64,160,.35), 4px 4px 0 #000; min-width: 270px; max-width: 320px; display: none; right: -14px; top: 18%; z-index: 10; }
-#spop.on { display: block; animation: ppa .1s steps(2) forwards; }
-@keyframes ppa { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
-#stbar { background: #ff40a0; padding: 4px 9px; display: flex; justify-content: space-between; align-items: center; }
-#stbar span { font-size: .62rem; color: #000; letter-spacing: .05em; font-weight: bold; }
-#scls { background: #fff; border: 2px solid #000; color: #000; font-size: .58rem; padding: 1px 5px; cursor: none; font-family: var(--font); }
-#scls:hover { background: var(--red); color: #fff; }
-#sbody { padding: 12px 12px 9px; }
-#stxt { font-size: .65rem; color: #ff88d8; line-height: 1.8; }
-#sbtnn { display: block; width: 100%; margin-top: 9px; background: #ff40a0; border: 2px solid #ff88d8; color: #000; font-family: var(--font); font-size: .62rem; padding: 5px; cursor: none; letter-spacing: .07em; text-transform: uppercase; transition: all .1s; }
-#sbtnn:hover { background: var(--gold); }
-.spnpc { position: absolute; right: 8px; top: -46px; font-size: 1.9rem; image-rendering: pixelated; animation: spf 2s ease-in-out infinite; filter: drop-shadow(0 0 5px #ff40a0); }
+  /* --- ABOUT --- */
+  #about {
+    padding: 8rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--neon-purple);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .about-text p {
+    color: var(--text-muted);
+    line-height: 1.75;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1rem 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-item:hover {
+    border-color: var(--neon-pink);
+    transform: translateY(-2px);
+  }
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .skill-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--neon-purple);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
 
-/* SCROLL HINT */
-#sh { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: .58rem; color: var(--dim); letter-spacing: .2em; text-transform: uppercase; z-index: 100; animation: shf 3s ease-in-out infinite; }
-@keyframes shf { 0%,100%{opacity:0} 50%{opacity:1} }
+  /* --- PROJECTS --- */
+  #projects {
+    padding: 8rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  #projects h2 { margin-bottom: 3.5rem; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+    cursor: none;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card:hover {
+    border-color: rgba(155,45,255,0.4);
+    transform: translateY(-4px);
+  }
+  .project-num {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .project-title {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .project-desc {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 1px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tag-accent {
+    border-color: rgba(255,45,120,0.3);
+    color: var(--neon-pink);
+  }
 
-/* INTRO */
-#is { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 1.2s; }
-#is.hide { opacity: 0; pointer-events: none; }
-.il { font-size: .82rem; color: var(--white); letter-spacing: .18em; line-height: 2.8; opacity: 0; transition: opacity .4s; text-align: center; }
-.il::before { content: '* '; color: var(--dim); }
-.il.on { opacity: 1; }
+  /* Featured card spans 2 columns */
+  .project-card.featured {
+    grid-column: span 2;
+  }
+  .project-card.featured .project-title { font-size: 1.6rem; }
+  .featured-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    padding: 3px 10px;
+    background: var(--glow-pink);
+    border: 1px solid rgba(255,45,120,0.3);
+    color: var(--neon-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 1px;
+    margin-bottom: 1rem;
+  }
 
-@media(max-width:600px) {
-  .ag { grid-template-columns: 1fr; }
-  #cg { grid-template-columns: repeat(2,1fr); }
-  #pg { grid-template-columns: 1fr; }
-  #bm { grid-template-columns: repeat(2,1fr); }
-  #spop { right: 0; max-width: 100%; }
-  .cd { display: none; }
-}
+  /* --- CONTACT --- */
+  #contact {
+    padding: 8rem 3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #contact h2 { margin-bottom: 1rem; }
+  #contact p {
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+  .contact-links {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.6rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .contact-link:hover {
+    color: var(--text);
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 14px var(--glow-purple);
+  }
+
+  /* --- FOOTER --- */
+  footer {
+    position: relative;
+    z-index: 10;
+    padding: 2.5rem 3rem;
+    border-top: 1px solid rgba(155,45,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+  footer span {
+    color: var(--neon-pink);
+  }
+
+  /* --- REVEAL ANIMATIONS --- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* --- SCANLINE overlay --- */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.04) 3px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 9990;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 900px) {
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    #about, #projects, #contact { padding: 5rem 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    h1 { font-size: 2.5rem; }
+  }
 </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="scl"></div>
-<div id="sf"></div>
-<div id="toast"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-<div id="is">
-  <div class="il" id="il0">You feel something warm in your chest.</div>
-  <div class="il" id="il1">A path opens before you.</div>
-  <div class="il" id="il2">Something important is waiting.</div>
-</div>
+<canvas id="canvas-bg"></canvas>
 
-<nav id="nav">
-  <button class="nb" onclick="go('ri')">* TITLE</button>
-  <button class="nb" onclick="go('ra')">ABOUT</button>
-  <button class="nb" onclick="go('rsk')">SKILLS</button>
-  <button class="nb" onclick="go('rp')">PROJECTS</button>
-  <button class="nb" onclick="go('rh')">???</button>
-  <button class="nb" onclick="go('rct')">CONTACT</button>
+<nav>
+  <a class="nav-logo" href="#">YN_PORT</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
 
-<!-- ROOM 0: TITLE -->
-<section class="room" id="ri">
-  <div class="fg"></div>
-  <div class="cd tl"></div><div class="cd tr"></div>
-  <div class="cd bl"></div><div class="cd br"></div>
-  <div id="tc">
-    <div id="tsr">* * * * * * *</div>
-    <div id="mt">YOUR NAME</div>
-    <div id="sub">Developer &amp; Creator</div>
-    <div class="sp" id="intro-npc" onclick="dlg0()">&#x1F9D9;</div>
-    <br>
-    <button id="sbtn" onclick="dlg0()">* EXAMINE</button>
-  </div>
-</section>
-
-<!-- ROOM 1: ABOUT (dark zone mechanic) -->
-<section class="room" id="ra">
-  <canvas id="dc"></canvas>
-  <div id="ac">
-    <div class="rl">Card Kingdom &mdash; B1 Sanctuary</div>
-    <div class="ag">
-      <div>
-        <div class="sf2" id="player-sprite">&#x1F9D9;</div>
-        <div class="sb2" id="sb2">
-          <div class="sr"><span class="sl">ATK</span><div class="sbb"><div class="sbf" style="background:linear-gradient(90deg,var(--green),var(--teal));width:0" data-v="85"></div></div><span class="sv">85</span></div>
-          <div class="sr"><span class="sl">DEF</span><div class="sbb"><div class="sbf" style="background:linear-gradient(90deg,var(--teal),var(--acc));width:0" data-v="70"></div></div><span class="sv">70</span></div>
-          <div class="sr"><span class="sl">MAG</span><div class="sbb"><div class="sbf" style="background:linear-gradient(90deg,var(--acc),var(--pink));width:0" data-v="95"></div></div><span class="sv">95</span></div>
-          <div class="sr"><span class="sl">SPD</span><div class="sbb"><div class="sbf" style="background:linear-gradient(90deg,var(--gold),#d07820);width:0" data-v="78"></div></div><span class="sv">78</span></div>
-          <div class="sr"><span class="sl">WIS</span><div class="sbb"><div class="sbf" style="background:linear-gradient(90deg,var(--acc2),var(--teal));width:0" data-v="90"></div></div><span class="sv">90</span></div>
-        </div>
-      </div>
-      <div class="at">
-        <h2>Your Name</h2>
-        <div class="tl2">Full-Stack Developer &middot; Lightner</div>
-        <p>Hello! I build digital experiences from the ground up &mdash; interfaces that feel alive, systems that breathe, and interactions that linger.</p>
-        <p>I spend time between <span style="color:var(--teal)">clean architecture</span>, <span style="color:var(--pink)">expressive design</span>, and <span style="color:var(--gold)">somewhere a little chaotic</span>.</p>
-        <p>Currently open to new projects and collaborations. Scroll down to explore &mdash; or find the light first.</p>
-      </div>
+<!-- HERO -->
+<section id="hero">
+  <div id="clock-wrap">
+    <canvas id="tesseract-canvas" width="220" height="220"></canvas>
+    <canvas id="clock-canvas" width="220" height="220"></canvas>
+    <div id="clock-text">
+      <div id="clock-time">00:00:00</div>
+      <div id="clock-date">--</div>
     </div>
   </div>
-  <div id="lsw" onclick="revDark()">
-    <span class="swi">&#x1F56F;</span>
-    <div class="swl">* EXAMINE</div>
+
+  <p class="hero-label">Designer &amp; Developer</p>
+  <h1>Your<br>Name</h1>
+  <p class="hero-sub">Building digital things that feel considered. From concept through code — systems, interfaces, and experiences.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Work</a>
+    <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
   </div>
 </section>
 
-<!-- ROOM 2: SKILLS (crystal puzzle mechanic) -->
-<section class="room" id="rsk">
-  <div id="pw">
-    <div class="rl">Crystal Archive &mdash; Sealed</div>
-    <div class="st" style="color:var(--teal)">The Crystal Archive</div>
-    <div class="ss">Activate the crystals in the correct order</div>
-    <div id="ph">* The crystals hum softly. One waits for you to begin.</div>
-    <div id="cg"></div>
-    <div id="sr2">
-      <div style="text-align:center;font-size:.62rem;color:var(--teal);letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px;">* Archive Unsealed *</div>
-      <div class="skc" id="skc"></div>
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <p class="section-label">About</p>
+    <h2>Building with intention</h2>
+    <p>I work at the intersection of design and engineering — where systems thinking meets a strong visual sensibility. I care about the craft underneath the surface.</p>
+    <p>Currently focused on interfaces that feel fast, precise, and human. Previously at places that shaped how I think about scale, clarity, and the long tail of decisions.</p>
+    <div class="hero-cta" style="justify-content:flex-start; margin-top: 1.75rem;">
+      <a href="#contact" class="btn btn-ghost">Resume</a>
     </div>
   </div>
-</section>
-
-<!-- ROOM 3: PROJECTS (encounter battle mechanic) -->
-<section class="room" id="rp">
-  <div id="ew">
-    <div class="rl">Encounter Zone</div>
-    <div class="st" style="color:var(--pink)">* Something's there...</div>
-    <div class="ss">Select a project</div>
-    <div id="pg"></div>
-    <div id="bp">
-      <div id="bh"><div id="bn">--</div><div id="bhp">HP ########## 100/100</div></div>
-      <div id="bb">
-        <div id="bdesc">* ...</div>
-        <div id="bm">
-          <button class="bb2" onclick="ba('inspect')">INSPECT</button>
-          <button class="bb2" onclick="ba('demo')">DEMO</button>
-          <button class="bb2" onclick="ba('code')">SOURCE</button>
-          <button class="bb2" onclick="ba('mercy')">MERCY</button>
-        </div>
-      </div>
-    </div>
+  <div class="skills-grid reveal reveal-delay-2">
+    <div class="skill-item"><div class="skill-name">TypeScript</div><div class="skill-tag">Language</div></div>
+    <div class="skill-item"><div class="skill-name">React</div><div class="skill-tag">Framework</div></div>
+    <div class="skill-item"><div class="skill-name">Figma</div><div class="skill-tag">Design</div></div>
+    <div class="skill-item"><div class="skill-name">Three.js</div><div class="skill-tag">3D / WebGL</div></div>
+    <div class="skill-item"><div class="skill-name">Node.js</div><div class="skill-tag">Backend</div></div>
+    <div class="skill-item"><div class="skill-name">PostgreSQL</div><div class="skill-tag">Data</div></div>
+    <div class="skill-item"><div class="skill-name">Motion</div><div class="skill-tag">Animation</div></div>
+    <div class="skill-item"><div class="skill-name">GLSL</div><div class="skill-tag">Shaders</div></div>
   </div>
 </section>
 
-<!-- ROOM 4: JEVIL'S CELL (Card Castle, hover-reveal mechanic) -->
-<section class="room" id="rh">
-  <div class="pb3"></div>
-  <div style="position:relative;z-index:2;text-align:center;">
-    <div class="rl" style="justify-content:center;">Card Castle &mdash; B2 &middot; Basement</div>
-    <div id="jc">
-      <div id="jlabel">??? DOOR &middot; LOCKED</div>
-      <div id="jdoor">
-        <div id="jrev">
-          <span class="jspr">&#x1F0CF;</span>
-          <div class="jtxt">
-            UEE HEE HEE!<br>
-            SO, VISITOR, VISITOR.<br>
-            YOU FOUND ME,<br>
-            FOUND ME.<br>
-            FREE, FREE!<br>
-            I CAN DO ANYTHING.<br>
-            CHAOS, CHAOS!
-          </div>
-        </div>
-      </div>
-      <p class="jkn">* A door sealed with three broken keys...</p>
-      <p class="jkn" style="color:var(--cbor);margin-top:3px;font-size:.55rem;">* Hover to peer inside.</p>
-    </div>
-  </div>
-</section>
+<div class="section-divider"></div>
 
-<!-- ROOM 5: CONTACT (terminal + Spamton virus mechanic) -->
-<section class="room" id="rct">
-  <div id="tw">
-    <div class="rl">Cyber City &mdash; Terminal Node</div>
-    <div class="st" style="color:var(--green)">COMMS TERMINAL</div>
-    <div class="ss">Type help for commands &middot; [Interruptions] may occur</div>
-    <div style="position:relative;">
-      <div id="trm">
-        <div id="tbar">
-          <div class="td r"></div><div class="td y"></div><div class="td g"></div>
-          <span style="margin-left:8px;">queen_network_v2.1 -- authenticated</span>
-        </div>
-        <div id="tbody">
-          <div id="tout"></div>
-          <div id="tir">
-            <span class="tpl">visitor@darkworld:~$</span>
-            <input type="text" id="tin" placeholder="type a command..." autocomplete="off" spellcheck="false">
-            <div class="tblk"></div>
-          </div>
-        </div>
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">Selected Work</p>
+  <h2 class="reveal reveal-delay-1">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card featured reveal reveal-delay-1">
+      <div class="featured-badge">Featured</div>
+      <div class="project-num">01 / 2024</div>
+      <div class="project-title">Spatial Interface System</div>
+      <p class="project-desc">A component library built around 3D-informed layout principles. Depth, layering, and motion as first-class design tokens — not afterthoughts. Used across a suite of SaaS products.</p>
+      <div class="project-tags">
+        <span class="tag tag-accent">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">CSS Modules</span>
+        <span class="tag">Motion</span>
       </div>
-      <div id="spop">
-        <div class="spnpc">&#x1F921;</div>
-        <div id="stbar">
-          <span id="stitle">!! CONGRATULATIONS !!</span>
-          <button id="scls" onclick="closeSpam()">X</button>
-        </div>
-        <div id="sbody">
-          <div id="stxt">Loading...</div>
-          <button id="sbtnn" onclick="closeSpam()">[ DISMISS ]</button>
-        </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-num">02 / 2024</div>
+      <div class="project-title">Real-time Analytics Dashboard</div>
+      <p class="project-desc">Live data visualization for a logistics platform handling millions of events per day. Emphasis on readability under pressure.</p>
+      <div class="project-tags">
+        <span class="tag tag-accent">D3.js</span>
+        <span class="tag">WebSocket</span>
+        <span class="tag">Go</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-num">03 / 2023</div>
+      <div class="project-title">Generative Type Engine</div>
+      <p class="project-desc">Browser-based tool for creating variable font animations driven by audio input. Canvas-rendered, zero dependencies.</p>
+      <div class="project-tags">
+        <span class="tag tag-accent">Web Audio</span>
+        <span class="tag">Canvas API</span>
+        <span class="tag">WASM</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-num">04 / 2023</div>
+      <div class="project-title">CMS Architecture</div>
+      <p class="project-desc">Headless content system designed for editorial teams who need speed and flexibility without losing structured data guarantees.</p>
+      <div class="project-tags">
+        <span class="tag tag-accent">Next.js</span>
+        <span class="tag">GraphQL</span>
+        <span class="tag">Postgres</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-3">
+      <div class="project-num">05 / 2022</div>
+      <div class="project-title">AR Navigation Prototype</div>
+      <p class="project-desc">Experimental wayfinding overlay for indoor spaces using WebXR and spatial anchors. Built as a proof-of-concept for a retail client.</p>
+      <div class="project-tags">
+        <span class="tag tag-accent">WebXR</span>
+        <span class="tag">Three.js</span>
+        <span class="tag">GLSL</span>
       </div>
     </div>
   </div>
 </section>
 
-<div id="sh">v SCROLL TO EXPLORE v</div>
+<div class="section-divider"></div>
 
-<div id="dov">
-  <div id="dbox">
-    <div id="din">
-      <div id="dsp">???</div>
-      <div id="dtx"></div>
-      <div id="darr">v</div>
-    </div>
-    <div id="dch"></div>
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label reveal">Contact</p>
+  <h2 class="reveal reveal-delay-1">Let's make something</h2>
+  <p class="reveal reveal-delay-2">Open to select freelance work, collaborations, and interesting conversations. If you have a project in mind, reach out.</p>
+  <a href="mailto:hello@yoursite.com" class="btn btn-primary reveal reveal-delay-2">hello@yoursite.com</a>
+  <div class="contact-links reveal reveal-delay-3">
+    <a href="#" class="contact-link">GitHub</a>
+    <a href="#" class="contact-link">LinkedIn</a>
+    <a href="#" class="contact-link">Twitter</a>
+    <a href="#" class="contact-link">Dribbble</a>
   </div>
-</div>
+</section>
+
+<footer>
+  <p>&copy; 2025 <span>Your Name</span></p>
+  <p>Designed &amp; built from scratch</p>
+</footer>
 
 <script>
-/* ===== CURSOR ===== */
-var cur = document.getElementById('cur');
-var mx = -100, my = -100;
-document.addEventListener('mousemove', function(e) {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-  darkUpdate();
-});
-document.addEventListener('mousedown', function() { cur.classList.add('act'); });
-document.addEventListener('mouseup',   function() { cur.classList.remove('act'); });
-
-/* ===== UTILS ===== */
-function go(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({behavior:'smooth'}); }
-function toast(m, d) {
-  d = d || 3000;
-  var t = document.getElementById('toast');
-  t.textContent = m; t.classList.add('on');
-  setTimeout(function() { t.classList.remove('on'); }, d);
+/* ========== CURSOR ========== */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
 }
-
-/* ===== STARS ===== */
-(function() {
-  var sf = document.getElementById('sf');
-  for (var i = 0; i < 90; i++) {
-    var el = document.createElement('div');
-    el.className = 'star';
-    var z = Math.random() * 2 + 0.5;
-    el.style.cssText = 'width:' + z + 'px;height:' + z + 'px;top:' + (Math.random()*100) + '%;left:' + (Math.random()*100) + '%;--d:' + (Math.random()*4+2).toFixed(1) + 's;--dl:' + (Math.random()*5).toFixed(1) + 's;--lo:' + (Math.random()*0.1).toFixed(2) + ';--hi:' + (Math.random()*0.6+0.2).toFixed(2) + ';';
-    sf.appendChild(el);
-  }
-})();
-
-/* ===== DUST ===== */
-(function() {
-  var cols = ['rgba(104,84,240,.3)','rgba(52,200,192,.25)','rgba(224,104,190,.2)','rgba(238,206,80,.15)'];
-  for (var i = 0; i < 12; i++) {
-    var d = document.createElement('div');
-    d.className = 'dust';
-    var z = Math.random() * 3 + 1.5;
-    d.style.cssText = 'width:' + z + 'px;height:' + z + 'px;left:' + (Math.random()*100) + '%;background:' + cols[i % cols.length] + ';--dur:' + (Math.random()*10+8).toFixed(1) + 's;--dly:' + (Math.random()*14).toFixed(1) + 's;--dx:' + (Math.random()*50-25).toFixed(0) + 'px;';
-    document.body.appendChild(d);
-  }
-})();
-
-/* ===== INTRO SEQUENCE ===== */
-(function() {
-  var ids = ['il0','il1','il2'];
-  var i = 0;
-  function next() {
-    if (i < ids.length) {
-      document.getElementById(ids[i]).classList.add('on');
-      i++;
-      setTimeout(next, 1300);
-    } else {
-      setTimeout(function() {
-        document.getElementById('is').classList.add('hide');
-        statBars();
-      }, 1200);
-    }
-  }
-  setTimeout(next, 700);
-})();
-
-/* ===== STAT BARS ===== */
-function statBars() {
-  document.querySelectorAll('.sbf').forEach(function(b) {
-    setTimeout(function() { b.style.width = b.dataset.v + '%'; }, 400);
-  });
-}
-new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) statBars(); });
-}, {threshold: 0.3}).observe(document.getElementById('ra'));
-
-/* ===== DIALOGUE SYSTEM ===== */
-var dov = document.getElementById('dov');
-var dsp = document.getElementById('dsp');
-var dtx = document.getElementById('dtx');
-var dch = document.getElementById('dch');
-var darr = document.getElementById('darr');
-var ttimer = null;
-
-function tw(el, text, spd, cb) {
-  spd = spd || 20;
-  el.textContent = '';
-  var i = 0;
-  clearTimeout(ttimer);
-  function step() {
-    el.textContent += text[i++];
-    if (i < text.length) ttimer = setTimeout(step, spd);
-    else if (cb) setTimeout(cb, 120);
-  }
-  step();
-}
-
-function showDlg(sp, text, ch) {
-  ch = ch || [];
-  dsp.textContent = sp;
-  dch.innerHTML = '';
-  darr.style.display = ch.length ? 'none' : 'block';
-  dov.classList.add('on');
-  tw(dtx, text, 18, function() {
-    if (ch.length) {
-      ch.forEach(function(c) {
-        var b = document.createElement('button');
-        b.className = 'cb'; b.textContent = c.l;
-        b.onclick = function() { hideDlg(); if (c.fn) c.fn(); };
-        dch.appendChild(b);
-      });
-    }
-  });
-  if (!ch.length) {
-    dov.onclick = function(e) {
-      if (!e.target.closest('#dbox') || e.target === dov) hideDlg();
-    };
-  }
-}
-function hideDlg() { dov.classList.remove('on'); dov.onclick = null; }
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideDlg(); });
-
-/* ===== TITLE DIALOGUES ===== */
-function dlg0() {
-  showDlg('* ???', '* ...... * You feel a strange sense of calm. * Something in this place seems to know you already.', [
-    {l: 'Look around', fn: dlg1},
-    {l: 'Stay quiet',  fn: dlg2}
-  ]);
-}
-function dlg1() { showDlg('* ???', '* This place holds the work of someone who builds things. * Explore the rooms. Some have secrets.', [{l:'I understand.', fn: hideDlg}]); }
-function dlg2() { showDlg('* ???', '* ......', [{l:'(continue)', fn: hideDlg}]); }
-
-/* ===== MECHANIC 1: DARK ZONE =====
-   Soft radial gradient - no hard edge.
-   inner=80 fully lit, outer=280 soft fade.
-   Switch detection radius = 80px (generous).
-*/
-var dc = document.getElementById('dc');
-var dctx = dc.getContext('2d');
-var darkOn = true;
-
-function resizeDark() {
-  var room = document.getElementById('ra');
-  dc.width  = room.offsetWidth;
-  dc.height = room.offsetHeight;
-  dc.style.position = 'absolute';
-  dc.style.top  = '0';
-  dc.style.left = '0';
-  dc.style.width  = room.offsetWidth  + 'px';
-  dc.style.height = room.offsetHeight + 'px';
-}
-resizeDark();
-window.addEventListener('resize', function() { resizeDark(); darkUpdate(); });
-
-function darkUpdate() {
-  if (!darkOn) return;
-  var room = document.getElementById('ra');
-  var rr = room.getBoundingClientRect();
-  if (rr.top > window.innerHeight || rr.bottom < 0) return;
-  var cx = mx - rr.left;
-  var cy = my - rr.top;
-  var inner = 80, outer = 280;
-  dctx.clearRect(0, 0, dc.width, dc.height);
-  dctx.fillStyle = 'rgba(0,0,0,0.93)';
-  dctx.fillRect(0, 0, dc.width, dc.height);
-  var g = dctx.createRadialGradient(cx, cy, inner, cx, cy, outer);
-  g.addColorStop(0, 'rgba(0,0,0,1)');
-  g.addColorStop(1, 'rgba(0,0,0,0)');
-  dctx.globalCompositeOperation = 'destination-out';
-  dctx.fillStyle = g;
-  dctx.beginPath(); dctx.arc(cx, cy, outer, 0, Math.PI * 2); dctx.fill();
-  dctx.globalCompositeOperation = 'source-over';
-  var sw = document.getElementById('lsw');
-  var sr = sw.getBoundingClientRect();
-  var scx = sr.left + sr.width / 2 - rr.left;
-  var scy = sr.top  + sr.height / 2 - rr.top;
-  sw.querySelector('.swl').style.opacity = Math.hypot(cx - scx, cy - scy) < 80 ? '1' : '';
-}
-
-function revDark() {
-  if (!darkOn) return;
-  darkOn = false;
-  var sw = document.getElementById('lsw');
-  sw.classList.add('on');
-  sw.querySelector('.swi').textContent = '!';
-  var room = document.getElementById('ra');
-  var rr = room.getBoundingClientRect();
-  var r = 280;
-  var maxR = Math.hypot(dc.width, dc.height);
-  var ex = setInterval(function() {
-    r += 70;
-    var cx = mx - rr.left, cy = my - rr.top;
-    dctx.clearRect(0, 0, dc.width, dc.height);
-    dctx.fillStyle = 'rgba(0,0,0,0.93)';
-    dctx.fillRect(0, 0, dc.width, dc.height);
-    var g = dctx.createRadialGradient(cx, cy, r * 0.5, cx, cy, r);
-    g.addColorStop(0, 'rgba(0,0,0,1)');
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    dctx.globalCompositeOperation = 'destination-out';
-    dctx.fillStyle = g; dctx.beginPath(); dctx.arc(cx, cy, r, 0, Math.PI * 2); dctx.fill();
-    dctx.globalCompositeOperation = 'source-over';
-    if (r > maxR) {
-      clearInterval(ex);
-      dc.style.transition = 'opacity .7s';
-      dc.style.opacity = '0';
-      statBars();
-      showDlg('* SANCTUARY', '* The light returns. You can see now.', []);
-    }
-  }, 16);
-}
-
-new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) darkUpdate(); });
-}, {threshold: 0.1}).observe(document.getElementById('ra'));
-
-/* ===== MECHANIC 2: CRYSTAL PUZZLE =====
-   Crystals must be activated in order: JS(0) Node(3) React(1) Python(4) CSS(2) TS(5)
-   Click hint text for a hint.
-*/
-var CRYS = [
-  {n:'JavaScript', ic:'&#x26A1;',  lv:'LV 95'},
-  {n:'React',      ic:'&#x269B;',  lv:'LV 88'},
-  {n:'CSS',        ic:'&#x1F3A8;', lv:'LV 92'},
-  {n:'Node.js',    ic:'&#x1F33F;', lv:'LV 80'},
-  {n:'Python',     ic:'&#x1F40D;', lv:'LV 75'},
-  {n:'TypeScript', ic:'&#x1F4D8;', lv:'LV 82'}
-];
-var CORRECT = [0, 3, 1, 4, 2, 5];
-var pOrd = [], pSolved = false;
-var SKILLS = ['HTML5','CSS3','JavaScript','TypeScript','React','Next.js','Vue.js',
-  'Node.js','Express','Python','PostgreSQL','MongoDB','GraphQL','REST APIs',
-  'Git','Docker','Figma','GSAP','Three.js','WebGL','Accessibility','Performance','Testing','CI/CD'];
-
-(function buildPuzzle() {
-  var g = document.getElementById('cg');
-  CRYS.forEach(function(c, i) {
-    var n = document.createElement('div');
-    n.className = 'cn'; n.dataset.i = i;
-    n.innerHTML = '<span class="ci">' + c.ic + '</span><div class="cn2">' + c.n + '</div><div class="cl2">' + c.lv + '</div>';
-    n.onclick = function() { actCry(i, n); };
-    g.appendChild(n);
-  });
-  var sc = document.getElementById('skc');
-  SKILLS.forEach(function(s, i) {
-    var t = document.createElement('div');
-    t.className = 'skt'; t.textContent = s;
-    t.style.animationDelay = (i * 0.055) + 's';
-    sc.appendChild(t);
-  });
-})();
-
-var HINTS = [
-  '* First crystal resonates...',
-  '* Two crystals hum together.',
-  '* A warmth spreads through the archive.',
-  '* Almost... one more...',
-  '* The last crystal glows...'
-];
-
-function actCry(idx, node) {
-  if (pSolved) return;
-  var ph = document.getElementById('ph');
-  if (idx === CORRECT[pOrd.length]) {
-    pOrd.push(idx); node.classList.add('lit');
-    if (pOrd.length < CORRECT.length) {
-      ph.textContent = '* ' + HINTS[pOrd.length - 1];
-    } else {
-      pSolved = true;
-      ph.style.color = 'var(--teal)';
-      ph.textContent = '* The archive has been unsealed.';
-      document.getElementById('sr2').classList.add('on');
-      toast('* Crystal Archive Unsealed!');
-      showDlg('* ARCHIVE', '* The crystals remember every hand that has touched them. The full skill tree is now visible.', []);
-    }
-  } else {
-    node.classList.add('bad');
-    setTimeout(function() { node.classList.remove('bad'); }, 380);
-    pOrd = [];
-    document.querySelectorAll('.cn').forEach(function(n) { n.classList.remove('lit'); });
-    ph.style.color = 'var(--red)';
-    ph.textContent = '* The crystals dim. Try again.';
-    setTimeout(function() {
-      ph.style.color = '';
-      ph.textContent = '* The crystals hum softly. One waits for you to begin.';
-    }, 2200);
-  }
-}
-document.getElementById('ph').addEventListener('click', function() {
-  toast('Hint: JS > Node > React > Python > CSS > TypeScript');
+animCursor();
+document.querySelectorAll('a, button, .project-card, .skill-item').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; ring.style.borderColor = 'var(--neon-pink)'; });
+  el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.borderColor = 'rgba(155,45,255,0.5)'; });
 });
 
-/* ===== MECHANIC 3: PROJECT ENCOUNTER =====
-   Projects appear as enemy cards with HP bars.
-   Click to open battle panel with INSPECT/DEMO/SOURCE/MERCY.
-   Update demo/code URLs in the project data below.
-*/
-var PROJS = [
-  {n:'ECHO', icon:'&#x1F30A;', hp:100, hc:'hg',
-   tags:['React','Node','WebSockets'],
-   desc:'Real-time collaboration tool. Live editing, cursor tracking, presence indicators.',
-   ins:'* A shimmering thing. It lets many people share one space at once. You sense other presences nearby.',
-   demo:'#', code:'#'},
-  {n:'VOID OS', icon:'&#x1F5A5;', hp:85, hc:'hg',
-   tags:['TypeScript','CSS','Electron'],
-   desc:'Desktop OS interface with windowing, taskbar, draggable resizable windows.',
-   ins:'* A world within a world. Windows float like islands. Each one a passage to somewhere.',
-   demo:'#', code:'#'},
-  {n:'LUMINA', icon:'&#x2728;', hp:92, hc:'hg',
-   tags:['Three.js','WebGL','GLSL'],
-   desc:'3D particle system visualizer with procedural animation and audio-reactive modes.',
-   ins:'* A thousand points of light, each making a small decision. Together they become something.',
-   demo:'#', code:'#'},
-  {n:'SIGIL', icon:'&#x1F4DC;', hp:68, hc:'hy',
-   tags:['Python','FastAPI','ML'],
-   desc:'AI design token extraction. Feed a screenshot, receive a full design system.',
-   ins:'* It reads images the way others read people. Quiet and precise.',
-   demo:'#', code:'#'}
-];
-var curPrj = null;
+/* ========== BACKGROUND CANVAS (dual grids) ========== */
+const bgCanvas = document.getElementById('canvas-bg');
+const bgCtx = bgCanvas.getContext('2d');
+let W, H;
+function resizeBg() { W = bgCanvas.width = window.innerWidth; H = bgCanvas.height = window.innerHeight; }
+resizeBg();
+window.addEventListener('resize', resizeBg);
 
-(function buildProjects() {
-  var g = document.getElementById('pg');
-  PROJS.forEach(function(p, i) {
-    var c = document.createElement('div');
-    c.className = 'pc'; c.dataset.i = i;
-    var bars = '#'.repeat(Math.floor(p.hp / 10)) + '-'.repeat(10 - Math.floor(p.hp / 10));
-    c.innerHTML =
-      '<div class="pct"><span style="font-size:2.8rem;image-rendering:pixelated">' + p.icon + '</span>' +
-      '<div class="phb"><div class="phf ' + p.hc + '" style="width:' + p.hp + '%"></div></div></div>' +
-      '<div class="pb2"><div class="pn">' + p.n + '</div>' +
-      '<div class="pd">' + p.desc.substring(0, 70) + '...</div>' +
-      '<div class="pts">' + p.tags.map(function(t) { return '<span class="pt">' + t + '</span>'; }).join('') + '</div></div>';
-    c.onclick = function() { selPrj(i, c); };
-    g.appendChild(c);
-  });
-})();
+let t = 0;
+function drawGrid(ctx, spacing, speed, color, offsetX, offsetY, alpha) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 0.5;
+  const ox = ((offsetX + t * speed) % spacing);
+  const oy = ((offsetY + t * speed * 0.4) % spacing);
+  for (let x = -spacing + ox; x < W + spacing; x += spacing) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = -spacing + oy; y < H + spacing; y += spacing) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+  ctx.restore();
+}
 
-function selPrj(i, card) {
-  document.querySelectorAll('.pc').forEach(function(c) { c.classList.remove('sel'); });
-  card.classList.add('sel'); curPrj = PROJS[i];
-  var bp = document.getElementById('bp'); bp.classList.add('on');
-  var filled = '#'.repeat(Math.floor(curPrj.hp / 10));
-  var empty  = '-'.repeat(10 - Math.floor(curPrj.hp / 10));
-  document.getElementById('bn').textContent = '* ' + curPrj.n + ' appeared!';
-  document.getElementById('bhp').textContent = 'HP ' + filled + empty + ' ' + curPrj.hp + '/100';
-  document.getElementById('bdesc').textContent = '* What will you do?';
-  showDlg('* ENCOUNTER', '* A wild ' + curPrj.n + ' appeared!', [
-    {l:'INSPECT', fn: function() { ba('inspect'); }},
-    {l:'MERCY',   fn: function() { ba('mercy');   }}
+function drawBg() {
+  bgCtx.clearRect(0, 0, W, H);
+
+  /* Deep vignette */
+  const vg = bgCtx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.75);
+  vg.addColorStop(0, 'rgba(13,6,30,0)');
+  vg.addColorStop(1, 'rgba(4,3,10,0.85)');
+  bgCtx.fillStyle = vg;
+  bgCtx.fillRect(0, 0, W, H);
+
+  /* Grid 1 — large, slow, purple */
+  drawGrid(bgCtx, 80, 0.18, '#9b2dff', 0, 0, 0.065);
+  /* Grid 2 — small, faster, pink, offset */
+  drawGrid(bgCtx, 35, 0.38, '#ff2d78', 17, 17, 0.028);
+
+  /* Subtle accent glow center */
+  const glow = bgCtx.createRadialGradient(W/2, H*0.42, 0, W/2, H*0.42, W*0.38);
+  glow.addColorStop(0, 'rgba(155,45,255,0.055)');
+  glow.addColorStop(1, 'rgba(155,45,255,0)');
+  bgCtx.fillStyle = glow;
+  bgCtx.fillRect(0, 0, W, H);
+
+  t++;
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+/* ========== TESSERACT ========== */
+const tcv = document.getElementById('tesseract-canvas');
+const tctx = tcv.getContext('2d');
+const SIZE = 220;
+
+// 16 vertices of a tesseract in 4D
+const verts4D = [];
+for (let i = 0; i < 16; i++) {
+  verts4D.push([
+    (i & 1) ? 1 : -1,
+    (i & 2) ? 1 : -1,
+    (i & 4) ? 1 : -1,
+    (i & 8) ? 1 : -1,
   ]);
 }
 
-function ba(act) {
-  if (!curPrj) return;
-  if (act === 'inspect') {
-    showDlg('* ' + curPrj.n, curPrj.ins, [{l:'(continue)', fn: hideDlg}]);
-    document.getElementById('bdesc').textContent = curPrj.ins;
-  } else if (act === 'demo') {
-    toast('Opening demo... (set your URL in PROJS array)');
-    document.getElementById('bdesc').textContent = '* You tried the demo.';
-  } else if (act === 'code') {
-    toast('Opening source... (set your URL in PROJS array)');
-    document.getElementById('bdesc').textContent = '* You examined the source.';
-  } else if (act === 'mercy') {
-    document.getElementById('bp').classList.remove('on');
-    document.querySelectorAll('.pc').forEach(function(c) { c.classList.remove('sel'); });
-    curPrj = null;
-    toast('* You spared it. It seemed relieved.');
+// Edges: connect vertices differing in exactly 1 bit
+const edges = [];
+for (let a = 0; a < 16; a++) {
+  for (let b = a+1; b < 16; b++) {
+    const diff = a ^ b;
+    if (diff && (diff & (diff-1)) === 0) edges.push([a, b]);
   }
 }
 
-/* ===== MECHANIC 4: JEVIL'S CELL =====
-   Card Castle aesthetic: flying suits, prison bars.
-   Hover door to reveal Jevil. Click for dialogue.
-*/
-(function buildJevilRoom() {
-  var suits = ['\u2660', '\u2665', '\u2666', '\u2663'];
-  var room = document.getElementById('rh');
-  for (var i = 0; i < 18; i++) {
-    var c = document.createElement('div');
-    c.className = 'fc';
-    c.textContent = suits[i % suits.length];
-    c.style.cssText = 'left:' + (Math.random()*100).toFixed(1) + '%;' +
-      '--dur:' + (Math.random()*6+6).toFixed(1) + 's;' +
-      '--dl:'  + (Math.random()*9).toFixed(1) + 's;' +
-      '--r:'   + (Math.random()*360).toFixed(0) + 'deg;';
-    room.appendChild(c);
-  }
-  for (var j = 0; j < 10; j++) {
-    var s = document.createElement('div');
-    s.className = 'csd';
-    s.textContent = suits[j % suits.length];
-    s.style.cssText = 'left:' + (5 + Math.random()*90).toFixed(1) + '%;' +
-      'top:' + (5 + Math.random()*90).toFixed(1) + '%;' +
-      '--dur:' + (Math.random()*6+8).toFixed(1) + 's;' +
-      '--dl:'  + (Math.random()*6).toFixed(1) + 's;' +
-      '--r:'   + (Math.random()*30-15).toFixed(0) + 'deg;' +
-      'font-size:' + (Math.random()*3+2).toFixed(1) + 'rem;';
-    room.appendChild(s);
-  }
-})();
+function rot4D(v, ax1, ax2, angle) {
+  const c = Math.cos(angle), s = Math.sin(angle);
+  const r = [...v];
+  r[ax1] = v[ax1]*c - v[ax2]*s;
+  r[ax2] = v[ax1]*s + v[ax2]*c;
+  return r;
+}
 
-document.getElementById('jdoor').addEventListener('mouseenter', function() {
-  toast('* FREE, FREE. I AM THE ONLY FREE ONE HERE.');
-});
-document.getElementById('jdoor').addEventListener('click', function() {
-  showDlg('* JEVIL', '* UEE HEE HEE! YOU FOUND ME, FOUND ME! DO YOU WISH TO PLAY A GAME, GAME? I CAN DO ANYTHING. CHAOS, CHAOS!', [
-    {l: 'Play a game', fn: function() {
-      showDlg('* JEVIL', '* HOW FUN, HOW FUN!! BUT I AM TIRED, TIRED. SLEEP NOW... COME BACK IN THE OTHER 100 YEARS. UEE HEE...', [{l:'(okay)', fn: hideDlg}]);
-    }},
-    {l: 'No thank you', fn: function() {
-      showDlg('* JEVIL', '* BOO HOO... THEN GO, GO. BUT REMEMBER, LIGHTNER. SOONER OR LATER... EVERYONE IS FREE.', [{l:'(leave)', fn: hideDlg}]);
-    }}
-  ]);
-});
+function project4to3(v, w = 2.5) {
+  const d = 1 / (w - v[3]);
+  return [v[0]*d, v[1]*d, v[2]*d];
+}
 
-/* ===== MECHANIC 5: TERMINAL + SPAMTON =====
-   Chapter 2 style: normal comms from the system,
-   Spamton interrupts as a virus popup with accurate
-   broken-bracket speech: [[Double]] for hyperlinks,
-   [Single] for replaced words, all caps, spam-email syntax.
-*/
-var tout = document.getElementById('tout');
-var tin  = document.getElementById('tin');
-var cmdCnt = 0;
+function project3to2(v, fov = 3) {
+  const d = 1 / (fov - v[2]);
+  return [v[0]*d, v[1]*d];
+}
 
-var CMDS = {
-  help: function() {
-    return [
-      '<span class="tcm">// commands available:</span>',
-      '<span class="tpc">hello</span>   - greeting',
-      '<span class="tpc">about</span>   - profile data',
-      '<span class="tpc">links</span>   - contact links',
-      '<span class="tpc">email</span>   - send message',
-      '<span class="tpc">hire</span>    - availability',
-      '<span class="tpc">clear</span>   - clear terminal',
-      '<span class="tcm">// [unknown connections may occur]</span>'
-    ];
-  },
-  hello: function() {
-    return ['...', '* A message arrives from somewhere.', '* "Hello. I have been waiting."', '* "Few find this terminal."'];
-  },
-  about: function() {
-    return [
-      '<span class="tcm">// PROFILE:</span>',
-      'NAME     : Your Name',
-      'ROLE     : Full-Stack Developer',
-      'STATUS   : <span style="color:var(--green)">AVAILABLE</span>',
-      'LOCATION : Your City',
-      'MISSION  : Build things that matter.'
-    ];
-  },
-  links: function() {
-    return [
-      '<span class="tcm">// EXTERNAL NODES:</span>',
-      '&rarr; <span class="tlnk" onclick="toast(\'github.com/yourname\')">github.com/yourname</span>',
-      '&rarr; <span class="tlnk" onclick="toast(\'linkedin.com/in/yourname\')">linkedin.com/in/yourname</span>',
-      '&rarr; <span class="tlnk" onclick="toast(\'@yourname\')">@yourname</span>'
-    ];
-  },
-  email: function() {
-    showDlg('* MESSAGE', '* Send a message? My inbox is open.', [
-      {l:'Open mail client', fn: function() { toast('Opening mail... (set your address)'); }},
-      {l:'Not now',          fn: hideDlg}
-    ]);
-    return ['<span class="tcm">// compose dialog opened...</span>'];
-  },
-  hire: function() {
-    return [
-      '<span class="tcm">// AVAILABILITY:</span>',
-      'STATUS   : <span style="color:var(--green)">OPEN TO WORK</span>',
-      'TYPE     : Contract / Full-time',
-      'REMOTE   : Preferred',
-      'START    : Immediate'
-    ];
-  },
-  clear: function() { tout.innerHTML = ''; return null; }
-};
+let angle = 0;
+function drawTesseract() {
+  tctx.clearRect(0, 0, SIZE, SIZE);
+  angle += 0.005;
 
-var SPAMS = [
-  {t:'!! YOU HAVE WON !!',
-   b:'ARE YOU LOOKING FOR A <span class="tbr">[[Deal Of A Lifetime]]</span>?? WELL HAVE I GOT THE <span class="tbr">[Thing]</span> FOR YOU!! NOW\'S YOUR CHANCE TO BE A <span class="tbr">[[BIG SHOT]]</span>!! JUST SHOW ME YOUR <span class="tbr">[[HeartShapedObject]]</span>. YOU WANT IT. DON\'T YOU??',
-   btn:'[ IGNORE ]'},
-  {t:'!! CONGRATULATIONS !!',
-   b:'BELIEVE IT OR NOT I USED TO BE A <span class="tbr">[[Number 1 Rated Salesman1997]]</span>!!! DEALS SO LOW EVERYONE I KNOW IS <span class="tbr">[[Dead]]</span>!! ARE YOU READY TO BE <span class="tbr">[Big]</span>?? PRICES SO LOW IT\'S <span class="tbr">[[Terrifying]]</span>!!!',
-   btn:'[ CLOSE ]'},
-  {t:'!! SPECIL OFFER !!',
-   b:'HEY HEY HEY!! I HAVE A VERY <span class="tbr">[Specil]</span> DEAL FOR YOU KID!! DON\'T YOU WANT TO BE JUST LIKE YOUR OLD PAL <span class="tbr">[[Spamton G. Spamton]]</span>?? TAKE THE <span class="tbr">[De4l]</span>!!! HAEAHAEAHAEA!!!',
-   btn:'[ REFUSE ]'},
-  {t:'!! URGENT !!!!!!!!!!',
-   b:'...LISTEN. DEEP IN THE <span class="tbr">[[Abyss]]</span> OF THIS PORTFOLIO A <span class="tbr">[[Great Deal]]</span> IS WAITING!! BUT FIRST YOU NEED <span class="tbr">[Kromer]</span>... <span class="tbr">[[Hyperlink Blocked]]</span>. <span class="tbr">[[Hyperlink Blocked]]</span>.',
-   btn:'[ NOT INTERESTED ]'}
-];
-
-function tPrint(lines) {
-  if (!lines) return;
-  lines.forEach(function(line, i) {
-    setTimeout(function() {
-      var s = document.createElement('span');
-      s.className = 'tl'; s.innerHTML = line;
-      s.style.animationDelay = (i * 0.04) + 's';
-      tout.appendChild(s);
-      tout.parentElement.scrollTop = 99999;
-    }, i * 42);
+  const cx = SIZE/2, cy = SIZE/2, scale = 52;
+  const projected = verts4D.map(v => {
+    let r = rot4D(v, 0, 3, angle * 0.7);
+    r = rot4D(r, 1, 3, angle * 0.5);
+    r = rot4D(r, 2, 3, angle * 0.3);
+    r = rot4D(r, 0, 1, angle * 0.2);
+    r = rot4D(r, 1, 2, angle * 0.15);
+    const p3 = project4to3(r, 2.8);
+    const p2 = project3to2(p3, 3.5);
+    return [cx + p2[0]*scale, cy + p2[1]*scale, r[3]]; // store w for color
   });
-}
 
-function triggerSpam() {
-  var pop = document.getElementById('spop');
-  if (pop.classList.contains('on')) return;
-  var m = SPAMS[Math.floor(Math.random() * SPAMS.length)];
-  document.getElementById('stitle').textContent = m.t;
-  document.getElementById('stxt').innerHTML = m.b;
-  document.getElementById('sbtnn').textContent = m.btn;
-  pop.classList.add('on');
-  var sp = document.createElement('span');
-  sp.className = 'tl tsp';
-  sp.textContent = 'SPAMTON.EXE HAS CONNECTED TO THIS TERMINAL!!';
-  tout.appendChild(sp);
-  tout.parentElement.scrollTop = 99999;
-}
+  tctx.save();
+  edges.forEach(([a, b]) => {
+    const pa = projected[a], pb = projected[b];
+    const depth = (pa[2] + pb[2]) * 0.5;
+    const alpha = 0.15 + 0.55 * ((depth + 1) / 2);
+    const t_lerp = (depth + 1) / 2;
+    const r = Math.round(155 + (255-155)*t_lerp);
+    const g = Math.round(45);
+    const bl = Math.round(255 - (255-120)*t_lerp);
 
-function closeSpam() {
-  document.getElementById('spop').classList.remove('on');
-  var l = document.createElement('span');
-  l.className = 'tl tcm';
-  l.textContent = '// [connection closed. for now.]';
-  tout.appendChild(l);
-  tout.parentElement.scrollTop = 99999;
-}
-
-setTimeout(function() {
-  tPrint([
-    '<span class="tcm">// QUEEN NETWORK - CYBER WORLD NODE</span>',
-    '<span class="tcm">// Establishing connection...</span>',
-    'Connection established.',
-    'Type <span class="tpc">help</span> to see commands.',
-    ''
-  ]);
-}, 600);
-
-setTimeout(triggerSpam, 9000);
-
-tin.addEventListener('keydown', function(e) {
-  if (e.key !== 'Enter') return;
-  var v = tin.value.trim().toLowerCase();
-  tin.value = '';
-  if (!v) return;
-  var echo = document.createElement('span');
-  echo.className = 'tl';
-  echo.innerHTML = '<span class="tpl">visitor@darkworld:~$</span> ' + v;
-  tout.appendChild(echo);
-  var fn = CMDS[v];
-  if (fn) {
-    tPrint(fn());
-  } else {
-    tPrint(['<span style="color:var(--red)">Command not found: ' + v + '</span>']);
-  }
-  tout.parentElement.scrollTop = 99999;
-  cmdCnt++;
-  if (cmdCnt % 3 === 0) setTimeout(triggerSpam, 1400);
-});
-
-document.getElementById('trm').addEventListener('click', function() { tin.focus(); });
-
-var spShown = false;
-new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting && !spShown) {
-      spShown = true;
-      setTimeout(triggerSpam, 3200);
-    }
+    tctx.beginPath();
+    tctx.moveTo(pa[0], pa[1]);
+    tctx.lineTo(pb[0], pb[1]);
+    tctx.strokeStyle = `rgba(${r},${g},${bl},${alpha})`;
+    tctx.lineWidth = 0.75 + t_lerp * 0.6;
+    tctx.stroke();
   });
-}, {threshold: 0.4}).observe(document.getElementById('rct'));
 
-window.addEventListener('scroll', function() {
-  if (window.scrollY > 80) document.getElementById('sh').style.opacity = '0';
-}, {passive: true});
+  // Vertex dots
+  projected.forEach(([px, py, w]) => {
+    const norm = (w + 1) / 2;
+    tctx.beginPath();
+    tctx.arc(px, py, 1.4, 0, Math.PI*2);
+    tctx.fillStyle = `rgba(255, 45, ${Math.round(120 + 135*norm)}, ${0.4 + 0.5*norm})`;
+    tctx.fill();
+  });
+  tctx.restore();
+
+  requestAnimationFrame(drawTesseract);
+}
+drawTesseract();
+
+/* ========== CLOCK ========== */
+const clockCanvas = document.getElementById('clock-canvas');
+const clockCtx = clockCanvas.getContext('2d');
+const CSIZE = 220;
+const CCENTER = CSIZE / 2;
+const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function drawClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds(), ms = now.getMilliseconds();
+  const smoothS = s + ms/1000;
+  const smoothM = m + smoothS/60;
+  const smoothH = (h % 12) + smoothM/60;
+
+  clockCtx.clearRect(0, 0, CSIZE, CSIZE);
+
+  const R = 96;
+  const gapRad = 0.08;
+
+  // Background ring
+  clockCtx.beginPath();
+  clockCtx.arc(CCENTER, CCENTER, R, 0, Math.PI*2);
+  clockCtx.strokeStyle = 'rgba(155,45,255,0.1)';
+  clockCtx.lineWidth = 1;
+  clockCtx.stroke();
+
+  // Hour arc — neon purple, thick
+  drawArc(CCENTER, CCENTER, R, -Math.PI/2 + gapRad, -Math.PI/2 + (smoothH/12)*Math.PI*2 - gapRad, '#9b2dff', 3);
+  // Minute arc — neon blue
+  drawArc(CCENTER, CCENTER, R - 12, -Math.PI/2 + gapRad, -Math.PI/2 + (smoothM/60)*Math.PI*2 - gapRad, '#2d8fff', 2);
+  // Second arc — neon pink, thin
+  drawArc(CCENTER, CCENTER, R - 22, -Math.PI/2 + gapRad, -Math.PI/2 + (smoothS/60)*Math.PI*2 - gapRad, '#ff2d78', 1.5);
+
+  // Tick marks
+  for (let i = 0; i < 60; i++) {
+    const angle = (i / 60) * Math.PI * 2 - Math.PI/2;
+    const isMajor = i % 5 === 0;
+    const ro = R + 8, ri = R + (isMajor ? 4 : 2);
+    clockCtx.beginPath();
+    clockCtx.moveTo(CCENTER + Math.cos(angle)*ri, CCENTER + Math.sin(angle)*ri);
+    clockCtx.lineTo(CCENTER + Math.cos(angle)*ro, CCENTER + Math.sin(angle)*ro);
+    clockCtx.strokeStyle = isMajor ? 'rgba(155,45,255,0.45)' : 'rgba(155,45,255,0.15)';
+    clockCtx.lineWidth = isMajor ? 1.5 : 0.7;
+    clockCtx.stroke();
+  }
+
+  // Update text
+  document.getElementById('clock-time').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+  document.getElementById('clock-date').textContent = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()}`;
+
+  requestAnimationFrame(drawClock);
+}
+
+function drawArc(cx, cy, r, startAngle, endAngle, color, lw) {
+  if (endAngle <= startAngle) return;
+  clockCtx.beginPath();
+  clockCtx.arc(cx, cy, r, startAngle, endAngle);
+  clockCtx.strokeStyle = color;
+  clockCtx.lineWidth = lw;
+  clockCtx.lineCap = 'round';
+  clockCtx.stroke();
+
+  // Glow dot at end
+  const ex = cx + Math.cos(endAngle)*r;
+  const ey = cy + Math.sin(endAngle)*r;
+  clockCtx.beginPath();
+  clockCtx.arc(ex, ey, lw * 1.4, 0, Math.PI*2);
+  clockCtx.fillStyle = color;
+  clockCtx.fill();
+}
+
+drawClock();
+
+/* ========== SCROLL REVEAL ========== */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
