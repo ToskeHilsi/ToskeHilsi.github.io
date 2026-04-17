@@ -1,1 +1,1 @@
-- rework speech
+- plantet is called blorm
