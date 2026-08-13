@@ -240,43 +240,6 @@
     box-shadow: 0 0 16px var(--glow-purple);
   }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0.4;
-  }
-  .scroll-hint span {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--neon-purple), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
-    50% { opacity: 1; transform: scaleY(1); }
-  }
-
-  /* --- DIVIDER --- */
-  .section-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--neon-purple) 30%, var(--neon-pink) 70%, transparent);
-    opacity: 0.3;
-  }
-
   /* --- ABOUT --- */
   #about {
     padding: 8rem 3rem;
@@ -583,14 +546,7 @@
     <a href="#projects" class="btn btn-primary">View Work</a>
     <a href="#contact" class="btn btn-ghost">Get in Touch</a>
   </div>
-
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- ABOUT -->
 <section id="about">
@@ -598,7 +554,7 @@
     <p class="section-label">About</p>
     <h2>Creating with heart</h2>
     <p>Hey! I am a programmer and artist for various games. I have loads of experience in art especially, but I know my way around the code as well.</p>
-    <p>I’m currently developing Accumulation. Accumulation is a asymmeterical multiplayer game that puts up to four players against one boss.</p>
+    <p>I'm currently developing Accumulation. Accumulation is a asymmetrical multiplayer game that puts up to four players against one boss.</p>
     <div class="hero-cta" style="justify-content:flex-start; margin-top: 1.75rem;">
       <a href="#contact" class="btn btn-ghost">Contact</a>
     </div>
@@ -611,8 +567,6 @@
     <div class="skill-item"><div class="skill-name">Creative Work</div><div class="skill-tag">Skill</div></div>
   </div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- PROJECTS -->
 <section id="projects">
@@ -642,8 +596,6 @@
     </a>
   </div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -719,9 +671,9 @@ function drawBg() {
   bgCtx.fillStyle = vg;
   bgCtx.fillRect(0, 0, W, H);
 
-  /* Grid 1 — large, slow, purple — much brighter */
+  /* Grid 1 — large, slow, purple */
   drawGrid(bgCtx, 80, 0.18, '#9b2dff', 0, 0, 0.28);
-  /* Grid 2 — small, faster, pink — much brighter */
+  /* Grid 2 — small, faster, pink, opposite direction */
   drawGrid(bgCtx, 35, -0.38, '#ff2d78', 17, 17, 0.12);
 
   /* Subtle accent glow center */
