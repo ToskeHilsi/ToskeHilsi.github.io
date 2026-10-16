@@ -40,26 +40,44 @@
   }
 
   /* --- CURSOR --- */
-  #cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--neon-pink);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.12s ease, opacity 0.2s;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: screen;
-  }
-  #cursor-ring {
+  .cur-ring {
     position: fixed;
     width: 32px; height: 32px;
-    border: 1px solid rgba(155,45,255,0.5);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
     transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: width 0.25s ease, height 0.25s ease,
+                border-radius 0.25s ease, border-color 0.25s ease,
+                transform 0.25s ease, opacity 0.2s;
+  }
+  #cur-r { border: 1.5px solid rgba(255,60,60,0.85); }
+  #cur-g { border: 1.5px solid rgba(60,255,60,0.85); }
+  #cur-b { border: 1.5px solid rgba(60,60,255,0.85); }
+
+  /* Hover state applied via JS class */
+  .cur-ring.hovered {
+    width: 28px; height: 28px;
+    border-radius: 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-color: rgba(255,255,255,0.95) !important;
+  }
+  #cursor-dot {
+    position: fixed;
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+  }
+  #cursor-trail {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9997;
   }
 
   /* --- CANVAS LAYERS --- */
@@ -615,8 +633,11 @@
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<canvas id="cursor-trail"></canvas>
+<div id="cur-r" class="cur-ring"></div>
+<div id="cur-g" class="cur-ring"></div>
+<div id="cur-b" class="cur-ring"></div>
+<div id="cursor-dot"></div>
 
 <canvas id="canvas-bg"></canvas>
 
@@ -735,23 +756,103 @@
 let clockModeActive = false;
 
 /* ========== CURSOR ========== */
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
+const curR = document.getElementById('cur-r');
+const curG = document.getElementById('cur-g');
+const curB = document.getElementById('cur-b');
+const curDot = document.getElementById('cursor-dot');
+const rings = [curR, curG, curB];
+
+const OFFSETS = [
+  { x: -3.5, y: -2 },
+  {  x: 3.5, y: -2 },
+  {  x: 0,   y: 3.5 },
+];
+
+let mx = 0, my = 0;
+const pos = rings.map(() => ({ x: 0, y: 0 }));
+const LAG = [0.11, 0.13, 0.12];
+let isHovered = false;
+
+// Dot position — snaps directly to mouse
+let dotX = 0, dotY = 0;
+
+// Trail canvas
+const trailCanvas = document.getElementById('cursor-trail');
+const trailCtx    = trailCanvas.getContext('2d');
+function resizeTrail() { trailCanvas.width = window.innerWidth; trailCanvas.height = window.innerHeight; }
+resizeTrail();
+window.addEventListener('resize', resizeTrail);
+
+// Trail stores recent points: { x, y, age } age 0→1 (1 = fully faded)
+const trailPoints = [];
+const TRAIL_DURATION = 600; // ms until fully faded
+const TRAIL_MAX_DIST = 4;   // only add a point if moved this many px
+
+let lastTrailX = 0, lastTrailY = 0, lastTrailTime = 0;
+
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function animCursor() {
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
-  rx += (mx - rx) * 0.14;
-  ry += (my - ry) * 0.14;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
+
+function animCursor(ts) {
+  // --- Rings ---
+  rings.forEach((ring, i) => {
+    const spread = isHovered ? 0 : 1;
+    const tx = mx + OFFSETS[i].x * spread;
+    const ty = my + OFFSETS[i].y * spread;
+    pos[i].x += (tx - pos[i].x) * LAG[i];
+    pos[i].y += (ty - pos[i].y) * LAG[i];
+    ring.style.left = pos[i].x + 'px';
+    ring.style.top  = pos[i].y + 'px';
+  });
+
+  // --- Dot ---
+  dotX += (mx - dotX) * 0.55;
+  dotY += (my - dotY) * 0.55;
+  curDot.style.left = dotX + 'px';
+  curDot.style.top  = dotY + 'px';
+
+  // --- Trail ---
+  const dx = dotX - lastTrailX, dy = dotY - lastTrailY;
+  if (Math.sqrt(dx*dx + dy*dy) > TRAIL_MAX_DIST) {
+    trailPoints.push({ x: dotX, y: dotY, born: ts });
+    lastTrailX = dotX; lastTrailY = dotY;
+  }
+
+  // Remove expired points
+  const now = ts;
+  while (trailPoints.length && now - trailPoints[0].born > TRAIL_DURATION) trailPoints.shift();
+
+  // Draw trail
+  trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+  if (trailPoints.length > 1) {
+    for (let i = 1; i < trailPoints.length; i++) {
+      const p0 = trailPoints[i - 1];
+      const p1 = trailPoints[i];
+      const age = (now - p1.born) / TRAIL_DURATION; // 0=fresh 1=gone
+      const alpha = (1 - age) * 0.55;
+      const width = (1 - age) * 2.5;
+      trailCtx.beginPath();
+      trailCtx.moveTo(p0.x, p0.y);
+      trailCtx.lineTo(p1.x, p1.y);
+      trailCtx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+      trailCtx.lineWidth = width;
+      trailCtx.lineCap = 'round';
+      trailCtx.stroke();
+    }
+  }
+
   requestAnimationFrame(animCursor);
 }
-animCursor();
+requestAnimationFrame(animCursor);
+
 document.querySelectorAll('a, button, .project-card, .skill-item').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; ring.style.borderColor = 'var(--neon-pink)'; });
-  el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.borderColor = 'rgba(155,45,255,0.5)'; });
+  el.addEventListener('mouseenter', () => {
+    isHovered = true;
+    rings.forEach(r => r.classList.add('hovered'));
+  });
+  el.addEventListener('mouseleave', () => {
+    isHovered = false;
+    rings.forEach(r => r.classList.remove('hovered'));
+  });
 });
 
 /* ========== BACKGROUND CANVAS (dual grids) ========== */
