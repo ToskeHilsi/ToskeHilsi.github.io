@@ -829,9 +829,9 @@ function drawClock(ctx, cx, R, lw_h, lw_m, lw_s, isLarge, textIds) {
   const h24  = now.getHours(), m = now.getMinutes(), s = now.getSeconds(), ms = now.getMilliseconds();
   const ampm = h24 >= 12 ? 'PM' : 'AM';
   const h12  = h24 % 12 || 12;
-  const smoothS = (s + ms / 1000) / 60;
-  const smoothM = (m + smoothS) / 60;
-  const smoothH = (h12 + smoothM) / 12;
+  const smoothS = ((s + ms / 1000) / 60) % 1;
+  const smoothM = ((m + (s + ms / 1000) / 60) / 60) % 1;
+  const smoothH = ((h12 + (m + (s + ms / 1000) / 60) / 60) / 12) % 1;
 
   const START  = -Math.PI / 2;
   const FULL   = Math.PI * 2;
@@ -861,17 +861,17 @@ function drawClock(ctx, cx, R, lw_h, lw_m, lw_s, isLarge, textIds) {
 
   // Arc helper
   function arc(r, progress, color, lw) {
+    if (progress <= 0.001) return;
     const end = START + progress * FULL;
-    if (end <= START + gapRad) return;
     ctx.beginPath();
-    ctx.arc(cx, cx, r, START + gapRad, end - gapRad);
+    ctx.arc(cx, cx, r, START, end);
     ctx.strokeStyle = color;
     ctx.lineWidth   = lw;
     ctx.lineCap     = 'round';
     ctx.stroke();
     // Glowing dot at tip
-    const ex = cx + Math.cos(end - gapRad) * r;
-    const ey = cx + Math.sin(end - gapRad) * r;
+    const ex = cx + Math.cos(end) * r;
+    const ey = cx + Math.sin(end) * r;
     ctx.beginPath();
     ctx.arc(ex, ey, lw * 1.4, 0, FULL);
     ctx.fillStyle = color;
