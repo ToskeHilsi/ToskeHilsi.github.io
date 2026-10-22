@@ -785,7 +785,7 @@ window.addEventListener('resize', resizeTrail);
 
 // Trail stores recent points: { x, y, age } age 0→1 (1 = fully faded)
 const trailPoints = [];
-const TRAIL_DURATION = 600; // ms until fully faded
+const TRAIL_DURATION = 120; // ms until fully faded
 const TRAIL_MAX_DIST = 4;   // only add a point if moved this many px
 
 let lastTrailX = 0, lastTrailY = 0, lastTrailTime = 0;
@@ -828,8 +828,8 @@ function animCursor(ts) {
       const p0 = trailPoints[i - 1];
       const p1 = trailPoints[i];
       const age = (now - p1.born) / TRAIL_DURATION; // 0=fresh 1=gone
-      const alpha = (1 - age) * 0.55;
-      const width = (1 - age) * 2.5;
+      const alpha = (1 - age) * 0.3;
+      const width = (1 - age) * 2;
       trailCtx.beginPath();
       trailCtx.moveTo(p0.x, p0.y);
       trailCtx.lineTo(p1.x, p1.y);
