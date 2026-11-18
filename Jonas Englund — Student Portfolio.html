@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jonas Englund — Student Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0820;--ink:#EDE8FF;--acc:#FF3DCB;--on:#0B0820;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"VT323",ui-monospace,monospace;font-size:1.5rem;line-height:1.15;overflow:hidden;transition:background-color .6s}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:5;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px)}
+.floor{position:fixed;left:-50%;right:-50%;bottom:0;height:50svh;opacity:.18;transform:perspective(320px) rotateX(58deg);transform-origin:50% 100%;background:linear-gradient(var(--acc) 2px,transparent 2px) 0 0/100% 56px,linear-gradient(90deg,var(--acc) 2px,transparent 2px) 0 0/72px 100%;animation:drift 3s linear infinite;-webkit-mask:linear-gradient(transparent,#000 70%);mask:linear-gradient(transparent,#000 70%)}
+@keyframes drift{to{background-position:0 56px,0 0}}
+.stage{position:fixed;inset:0;z-index:1;--D:120svh;--cx:4vw;--cy:50%;--r:calc(var(--D)*.3)}
+.sweep{position:absolute;left:var(--cx);top:var(--cy);width:calc(var(--D)*.9);height:calc(var(--D)*.9);translate:-50% -50%;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 290deg,color-mix(in srgb,var(--acc) 32%,transparent) 360deg);animation:spin 5s linear infinite;pointer-events:none}
+@keyframes spin{to{rotate:360deg}}
+.dial{position:absolute;width:var(--D);height:var(--D);left:calc(var(--cx) - var(--D)/2);top:calc(var(--cy) - var(--D)/2);border-radius:50%;border:8px double var(--ink);transition:transform .5s steps(8)}
+.dial::before,.dial::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.dial::before{inset:calc(var(--D)*.2 - 8px);border:4px dashed var(--ink);opacity:.4}
+.dial::after{inset:calc(var(--D)*.34 - 8px);border:3px solid var(--acc);opacity:.55}
+.hx{position:absolute;left:50%;top:50%;transform-origin:0 0;transform:rotate(var(--a)) translate(calc(var(--D)*.415),-50%);font-size:1.1rem;letter-spacing:.08em;color:var(--acc);opacity:.7;white-space:nowrap}
+.spoke{position:absolute;left:50%;top:50%;width:0;height:0}
+.spoke button{position:absolute;left:var(--r);top:0;transform-origin:0 0;font-family:"Pixelify Sans",ui-monospace,monospace;font-weight:600;font-size:clamp(1rem,2.7svh,1.5rem);line-height:1.1;text-align:left;white-space:nowrap;color:var(--ink);background:#05030f;border:4px solid var(--ink);padding:.45rem .8rem .4rem;cursor:pointer;box-shadow:5px 5px 0 rgba(0,0,0,.55);transition:transform .5s steps(8)}
+.spoke button small{display:block;font:400 1.1rem/1 "VT323",monospace;opacity:.65;margin-top:3px}
+.spoke button:hover{border-color:var(--acc)}
+.spoke button[aria-current=true]{background:var(--acc);color:var(--on);border-color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:3px dashed var(--acc);outline-offset:4px}
+.hub{position:absolute;left:var(--cx);top:var(--cy);width:calc(var(--D)*.15);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:#05030f;border:6px double var(--ink);display:grid;place-items:center}
+.hub svg{width:48%;display:block;animation:beat 1s steps(2) infinite}
+@keyframes beat{50%{scale:1.14}}
+.ptr{position:absolute;left:calc(var(--cx) + var(--D)/2 + 8px);top:var(--cy);translate:0 -50%;width:28px;height:36px;background:var(--acc);clip-path:polygon(100% 0,100% 100%,75% 100%,75% 83%,50% 83%,50% 67%,25% 67%,25% 33%,50% 33%,50% 17%,75% 17%,75% 0)}
+.panel{position:absolute;left:calc(var(--cx) + var(--D)/2 + 64px);right:4vw;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;padding:4svh 0}
+.box{border:6px solid var(--ink);background:rgba(5,3,15,.92);box-shadow:10px 10px 0 var(--acc);padding:clamp(1rem,2.6vw,2.2rem);max-height:100%;overflow-y:auto}
+.box.swap>div{animation:pop .25s steps(5)}
+@keyframes pop{from{opacity:0;translate:0 10px}}
+.ps{color:var(--acc);margin-bottom:.7rem}
+h1,h2,h3{font-family:"Pixelify Sans",ui-monospace,monospace;margin:0;line-height:1;letter-spacing:-.01em}
+h1{font-size:clamp(2.6rem,5.6vw,5rem);margin-bottom:.8rem}
+h2{font-size:clamp(2rem,3.8vw,3.2rem);margin-bottom:1rem}
+p{margin:0 0 1rem;max-width:36em;font-size:1.65rem}
+.dim{opacity:.6}
+.q{display:grid;grid-template-columns:5.2rem 1fr;gap:.2rem 1rem;align-items:center;padding:.7rem 0;border-top:3px dashed rgba(255,255,255,.25)}
+.q:last-of-type{margin-bottom:1rem}
+.q b{font:600 1.5rem/1.1 "Pixelify Sans",monospace}
+.q span{grid-column:2;opacity:.75}
+.tag{grid-row:1/3;font:600 1rem/1 "Pixelify Sans",monospace;text-align:center;padding:.45rem 0;border:3px solid var(--acc)}
+.tag.DONE{background:var(--acc);color:var(--on)}
+.tag.NOW{color:var(--acc);animation:blink 1.2s steps(1) infinite}
+.tag.NEXT{border:3px dashed var(--ink);color:var(--ink);opacity:.8}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tile{border:4px solid var(--ink);padding:.8rem 1rem}
+.tile b{font:600 1.35rem/1.1 "Pixelify Sans",monospace;display:block;margin-bottom:.3rem;color:var(--acc)}
+.links a{display:block;width:max-content;max-width:100%;color:var(--ink);text-decoration:none;font:600 clamp(1.7rem,3.4vw,2.8rem)/1.25 "Pixelify Sans",monospace}
+.links a::before{content:"> ";color:var(--acc)}
+.links a:hover{color:var(--acc)}
+.cur{display:inline-block;width:.55em;height:1em;background:var(--acc);vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.25}}
+.hint{position:absolute;right:4vw;bottom:2.5svh;font-size:1.1rem;opacity:.6}
+@media (max-width:800px),(max-aspect-ratio:1/1){
+ body{font-size:1.3rem}
+ .stage{--D:150vw;--cx:50%;--cy:100%}
+ .spoke button{font-size:1.05rem;padding:.4rem .6rem}
+ .spoke button small{display:none}
+ .hub{width:calc(var(--D)*.16)}
+ .ptr{left:calc(50% - 14px);top:calc(100% - var(--D)/2 - 46px);translate:none;rotate:-90deg}
+ .panel{left:0;right:0;top:env(safe-area-inset-top,0px);bottom:auto;height:calc(100% - var(--D)/2 - 56px);justify-content:flex-start;padding:4svh 5vw 0}
+ .box{box-shadow:6px 6px 0 var(--acc)}
+ .tiles{grid-template-columns:1fr}
+ .hint,.hx{display:none}
+ p{font-size:1.45rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="floor" aria-hidden="true"></div>
+<div class="stage" id="stage">
+  <div class="sweep" aria-hidden="true"></div>
+  <nav class="dial" id="dial" aria-label="Sections"></nav>
+  <div class="hub" aria-hidden="true"><svg viewBox="0 0 9 8" shape-rendering="crispEdges"><polygon fill="#FF2D55" points="1,0 4,0 4,1 5,1 5,0 8,0 8,1 9,1 9,4 8,4 8,5 7,5 7,6 6,6 6,7 5,7 5,8 4,8 4,7 3,7 3,6 2,6 2,5 1,5 1,4 0,4 0,1 1,1"/></svg></div>
+  <div class="ptr" aria-hidden="true"></div>
+  <main class="panel"><div class="box" id="box" aria-live="polite"></div></main>
+  <div class="hint">Turn the wheel: click a node, scroll, or press ← →</div>
+</div>
+<script>
+// ---- Edit this block to make the site yours ----
+const ME = {
+  name: "Jonas Englund",
+  intro: "* Student who loves video games and is learning to code. Python and Computational Thinking certified, taking Networking now, and curious about ethical hacking (just getting started).",
+  training: [
+    ["DONE","Software & App Design","Course"],
+    ["DONE","Python","Certified"],
+    ["DONE","Computational Thinking","Certified"],
+    ["NOW","Networking","Class in progress"]
+  ],
+  ethics: "* Ethical hacking is where I want to go next. I’m starting from zero, and that’s the fun part.",
+  items: [
+    ["Deltarune","The one I replay for the music, the writing, and the weird."],
+    ["Splatoon","Ink, color, and chaotic fun with friends."],
+    ["Game Design","Figuring out why a game feels good to play, and making my own ideas."],
+    ["Art","Drawing and making things that look like nothing else."]
+  ],
+  quests: [
+    ["NOW","Finish my Networking class","Learning how computers talk to each other"],
+    ["NEXT","Learn security basics","Starting from zero, one step at a time"],
+    ["NEXT","Sketch a game idea of my own","Combining my art and game design interests"],
+    ["NEXT","Build something with Python","Using what I learned in app design"]
+  ],
+  links: [["jengl034@evit.edu","mailto:jengl034@evit.edu"],["GitHub","https://github.com/ToskeHilsi"],["LinkedIn","https://www.linkedin.com/in/jonas-englund-3896193a7/"],["Discord","https://discordapp.com/users/889628727040962560"]]
+};
+const rows = a => a.map(([t,n,s])=>`<div class="q"><div class="tag ${t}">${t}</div><b>${n}</b><span>${s}</span></div>`).join("");
+const S = [
+ {k:"HELLO",cmd:"whoami",bg:"#0B0820",acc:"#FF3DCB",
+  html:()=>`<div class="ps">$ whoami</div><h1>${ME.name}</h1><p class="tw" data-t="${ME.intro}"></p><p class="dim">uid=1000(jonas) groups=coding,networking,games,art</p>`},
+ {k:"STUDYING",cmd:"ls ~/courses",bg:"#06161C",acc:"#35E8FF",
+  html:()=>`<div class="ps">$ ls ~/courses</div><h2>Training</h2>${rows(ME.training)}<p class="tw" data-t="${ME.ethics}"></p>`},
+ {k:"INTERESTS",cmd:"cat inventory.txt",bg:"#170A2E",acc:"#A66BFF",
+  html:()=>`<div class="ps">$ cat inventory.txt</div><h2>Items</h2><div class="tiles">${ME.items.map(i=>`<div class="tile"><b>${i[0]}</b>${i[1]}</div>`).join("")}</div>`},
+ {k:"QUESTS",cmd:"cat quests.md",bg:"#07180F",acc:"#4DFF9A",
+  html:()=>`<div class="ps">$ cat quests.md</div><h2>Next quests</h2>${rows(ME.quests)}`},
+ {k:"CONTACT",cmd:"ssh jonas@home",bg:"#1E0A16",acc:"#FF4D6D",
+  html:()=>`<div class="ps">$ ssh jonas@home</div><h2>Connect</h2><div class="links">${ME.links.map(l=>`<a href="${l[1]}">${l[0]}</a>`).join("")}</div><p class="tw" data-t="* Always happy to talk about games, art, or code."></p>`}
+];
+const N = S.length, STEP = 360/N, mod = n => ((n%N)+N)%N;
+const dial = document.getElementById("dial"), box = document.getElementById("box");
+const mq = matchMedia("(max-width:800px),(max-aspect-ratio:1/1)");
+const calm = matchMedia("(prefers-reduced-motion:reduce)").matches;
+let step = 0, tok = 0, last = 0;
+// ring of hex bytes (a little data ring around the rim)
+"DE AD BE EF 41 4C 45 58 90 00 7F 45 4C 46 02 01 FF 00 C0 DE 13 37 BA DC".split(" ").forEach((h,k)=>{
+  const s = document.createElement("span"); s.className = "hx"; s.textContent = h;
+  s.style.setProperty("--a",`${k*15}deg`); dial.appendChild(s);
+});
+const wheelBtns = S.map((s,i)=>{
+  const sp = document.createElement("div"); sp.className = "spoke"; sp.style.transform = `rotate(${i*STEP}deg)`;
+  const b = document.createElement("button"); b.innerHTML = `${s.k}<small>${s.cmd}</small>`;
+  b.onclick = () => go(i); sp.appendChild(b); dial.appendChild(sp); return b;
+});
+function typeIn(el,text,t){
+  el.innerHTML = '<span></span><span style="visibility:hidden"></span><i class="cur"></i>';
+  const [a,b] = el.children; b.textContent = text; let n = 0;
+  (function tick(){
+    if (t !== tok) return;
+    n++; a.textContent = text.slice(0,n); b.textContent = text.slice(n);
+    if (n < text.length) setTimeout(tick,18); else el.querySelector(".cur").remove();
+  })();
+}
+function go(i){ // shortest way round
+  let d = mod(i) - mod(step); if (d > N/2) d -= N; if (d < -N/2) d += N;
+  if (d) { step += d; draw(true); }
+}
+function draw(fresh){
+  const i = mod(step), s = S[i], base = mq.matches ? -90 : 0, R = base - step*STEP, r = document.documentElement.style;
+  r.setProperty("--bg",s.bg); r.setProperty("--acc",s.acc);
+  dial.style.transform = `rotate(${R}deg)`;
+  wheelBtns.forEach((b,j)=>{
+    b.style.transform = `rotate(${-(j*STEP+R)}deg) translate(-50%,-50%)`;
+    b.setAttribute("aria-current",j===i);
+  });
+  if (!fresh) return;
+  tok++; box.innerHTML = `<div>${s.html()}</div>`;
+  box.classList.remove("swap"); void box.offsetWidth; box.classList.add("swap"); box.scrollTop = 0;
+  box.querySelectorAll(".tw").forEach(el=>{ const t = el.dataset.t; if (calm) el.textContent = t; else typeIn(el,t,tok); });
+}
+function tryStep(d){ const n = performance.now(); if (n-last < 320) return; last = n; step += d; draw(true); }
+addEventListener("keydown",e=>{
+  if (["ArrowDown","ArrowRight"].includes(e.key)) { e.preventDefault(); tryStep(1); }
+  if (["ArrowUp","ArrowLeft"].includes(e.key)) { e.preventDefault(); tryStep(-1); }
+  if (/^[1-5]$/.test(e.key)) go(+e.key-1);
+});
+addEventListener("wheel",e=>{
+  if (Math.abs(e.deltaY) < 8 || (box.contains(e.target) && box.scrollHeight > box.clientHeight)) return;
+  tryStep(e.deltaY>0?1:-1);
+},{passive:true});
+let t0 = null;
+addEventListener("touchstart",e=>{ t0 = e.touches[0]; },{passive:true});
+addEventListener("touchend",e=>{
+  if (!t0) return; const t = e.changedTouches[0], dx = t.clientX-t0.clientX, dy = t.clientY-t0.clientY;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) tryStep(dx<0?1:-1);
+  t0 = null;
+});
+mq.addEventListener("change",()=>draw(false));
+draw(true);
+</script>
+</body>
+</html>
